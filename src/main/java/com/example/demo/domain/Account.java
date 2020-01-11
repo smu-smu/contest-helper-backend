@@ -30,4 +30,5 @@ public class Account {
 
     @Field("messages")
     private List<Message> messages = new ArrayList<>();
+
 }

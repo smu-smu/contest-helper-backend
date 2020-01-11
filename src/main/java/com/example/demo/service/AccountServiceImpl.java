@@ -1,13 +1,15 @@
 package com.example.demo.service;
 
-import com.example.demo.domain.Account;
-import com.example.demo.domain.Message;
-import com.example.demo.domain.TagScore;
+import com.example.demo.domain.*;
 import com.example.demo.repository.AccountRepository;
+import com.example.demo.repository.CompetitionRepository;
+import com.example.demo.repository.EstimateRepository;
+import com.example.demo.repository.TeamRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.swing.text.html.HTML;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -15,6 +17,12 @@ public class AccountServiceImpl implements AccountService {
 
     @Autowired
     AccountRepository repository;
+    @Autowired
+    EstimateRepository estimateRepository;
+    @Autowired
+    TeamRepository teamRepository;
+    @Autowired
+    CompetitionRepository competitionRepository;
 
 
     @Override
@@ -61,7 +69,47 @@ public class AccountServiceImpl implements AccountService {
         return repository.save(account);
     }
 
+    @Override
+    public List<Estimate> getEstiListByAccountId(String userId) {
+        return estimateRepository.findByAccountId(userId);
+    }
 
+    @Override
+    public List<Account> getAppraiseeByEstimate(Estimate estimate){
+        List<Account> accounts = new ArrayList<>();
+        Team tempTeam = teamRepository.findById(estimate.getTeamId()).get();
+        for (String accountId : tempTeam.getMembers()) {
+            if (accountId != estimate.getAccountId()) {
+                accounts.add(repository.findById(accountId).get());
+            }
+        }
+        return accounts;
+    }
+
+    @Override
+    public Account estimateTeam(Estimate estimate, List<EstimateScore> scores) {
+        Team tempTeam = teamRepository.findById(estimate.getTeamId()).get();
+        Competition tempComp = competitionRepository.findById(tempTeam.getContestId()).get();
+        for (String accountId : tempTeam.getMembers()) {
+            Account account = repository.findById(accountId).get();
+            if (!account.getUserId().equals(estimate.getAccountId())) {
+                for (String category : tempComp.getCategory()) {
+                    TagScore tagScore = new TagScore();
+                    tagScore.setTagName(category);
+                    for (EstimateScore estimateScore : scores) {
+                        if (estimateScore.getAccountId().equals(accountId)) {
+                            tagScore.setScore(estimateScore.getScore());
+                        }
+                    }
+                    newTagScore(tagScore, accountId);
+                }
+            }
+        }
+        estimateRepository.delete(estimate);
+        return repository.findById(estimate.getAccountId()).get();
+    }
+
+    @Override
     public Account newTagScore(TagScore newTags, String userId) {
         Account account = repository.findById(userId).get();
 
