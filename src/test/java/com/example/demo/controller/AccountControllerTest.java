@@ -10,10 +10,11 @@ import org.springframework.test.context.junit4.SpringRunner;
 @RunWith(SpringRunner.class)
 @WebMvcTest
 public class AccountControllerTest {
-    @MockBean
-    AccountService service;
 
-    @Test
-    public void crud() {
-    }
+  @MockBean
+  AccountService service;
+
+  @Test
+  public void crud() {
+  }
 }

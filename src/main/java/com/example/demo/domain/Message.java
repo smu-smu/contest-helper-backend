@@ -10,6 +10,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Message {
-    private String title;
-    private String content;
+
+  private String title;
+  private String content;
 }

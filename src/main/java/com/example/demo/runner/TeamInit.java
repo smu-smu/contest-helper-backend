@@ -7,12 +7,12 @@ import org.springframework.boot.ApplicationRunner;
 
 public class TeamInit implements ApplicationRunner {
 
-    @Autowired
-    TeamRepository teamRepository;
+  @Autowired
+  TeamRepository teamRepository;
 
-    @Override
-    public void run(ApplicationArguments args) throws Exception {
+  @Override
+  public void run(ApplicationArguments args) throws Exception {
 //        teamRepository.deleteAll();
-    }
+  }
 
 }

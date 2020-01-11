@@ -12,14 +12,14 @@ import org.springframework.stereotype.Component;
 public class PerfAspect {
 
 
+  //    @Around("execution(* com.example.boottest.controller.*(..))")
+  @Around("@annotation(PerfLogging)")
+  public Object logPerf(ProceedingJoinPoint pjp) throws Throwable {
 
-//    @Around("execution(* com.example.boottest.controller.*(..))")
-    @Around("@annotation(PerfLogging)")
-    public Object logPerf(ProceedingJoinPoint pjp) throws Throwable {
-
-        long begin = System.currentTimeMillis();
-        Object retVal = pjp.proceed();
-        log.info(pjp.getSignature().getDeclaringTypeName()+"의 "+pjp.getSignature().getName() + " 메소드 실행 시간 : "+ (System.currentTimeMillis() - begin));
-        return retVal;
-    }
+    long begin = System.currentTimeMillis();
+    Object retVal = pjp.proceed();
+    log.info(pjp.getSignature().getDeclaringTypeName() + "의 " + pjp.getSignature().getName()
+        + " 메소드 실행 시간 : " + (System.currentTimeMillis() - begin));
+    return retVal;
+  }
 }

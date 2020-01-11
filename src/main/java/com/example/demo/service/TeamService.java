@@ -1,34 +1,32 @@
 package com.example.demo.service;
 
-import com.example.demo.domain.Team;
 import com.example.demo.domain.Participant;
-
+import com.example.demo.domain.Team;
 import java.util.List;
 
 public interface TeamService {
-    Team createTeam(Team team);
 
-    Team closeTeam(Team team);
+  Team createTeam(Team team);
 
-    Team terminateTeam(Team team);
+  Team closeTeam(Team team);
 
-    Participant getParticipantById(String teamId, String id);
+  Team terminateTeam(Team team);
 
-    List<Team> getTeams();
+  Participant getParticipantById(String teamId, String id);
 
-    Team request(Participant participant);
+  List<Team> getTeams();
 
-    List<Participant> getParticipants(String teamId);
+  Team request(Participant participant);
 
-    Team reject(Participant participant);
+  List<Participant> getParticipants(String teamId);
 
-    Team permit(Participant participant);
+  Team reject(Participant participant);
 
-    Team updateComment(Team team);
+  Team permit(Participant participant);
 
-    List<Team> getTeamsByContestId(String contestId);
+  Team updateComment(Team team);
 
-    Double getTeamScore(String teamId);
+  List<Team> getTeamsByContestId(String contestId);
 
-    Team remove(String name);
+  Double getTeamScore(String teamId);
 }

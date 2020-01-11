@@ -1,121 +1,120 @@
 package com.example.demo.repository;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 import com.example.demo.domain.Account;
 import com.example.demo.domain.Message;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.data.mongo.DataMongoTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-
-import static org.assertj.core.api.Assertions.assertThat;
-
 @RunWith(SpringRunner.class)
 @DataMongoTest
 public class AccountRepositoryTest {
 
-    @Autowired
-    AccountRepository repository;
+  @Autowired
+  AccountRepository repository;
 
-    @Test
-    public void crud(){
-        Account account = new Account();
-        account.setName("kts");
-        account.setUserId("1");
-        account.setPassword("kts");
+  @Test
+  public void crud() {
+    Account account = new Account();
+    account.setName("kts");
+    account.setUserId("1");
+    account.setPassword("kts");
 
-        repository.save(account);
+    repository.save(account);
 
-        Optional<Account> byId = repository.findById(account.getUserId());
-        assertThat(byId.orElseGet(() -> new Account())).isEqualTo(account);
+    Optional<Account> byId = repository.findById(account.getUserId());
+    assertThat(byId.orElseGet(() -> new Account())).isEqualTo(account);
 
-        Optional<Account> byId2 = repository.findById("adfasdfdf");
+    Optional<Account> byId2 = repository.findById("adfasdfdf");
 
-        assertThat(byId2.orElseGet(() -> new Account())).isEqualTo(new Account());
-    }
+    assertThat(byId2.orElseGet(() -> new Account())).isEqualTo(new Account());
+  }
 
-    @Test
-    public void getTagUser(){
-        String tag="aaa";
+  @Test
+  public void getTagUser() {
+    String tag = "aaa";
 
-        Account account = new Account();
-        account.getFavorites().add("aaa");
+    Account account = new Account();
+    account.getFavorites().add("aaa");
 
-        repository.save(account);
+    repository.save(account);
 
-        Account account2 = new Account();
-        account2.getFavorites().add("b");
+    Account account2 = new Account();
+    account2.getFavorites().add("b");
 
-        repository.save(account2);
+    repository.save(account2);
 
-        Account account3 = new Account();
-        account3.getFavorites().add("aaa");
-        repository.save(account3);
+    Account account3 = new Account();
+    account3.getFavorites().add("aaa");
+    repository.save(account3);
 
-        List<Account> byFavoritesContains = repository.findByFavoritesContains(tag);
-        assertThat(byFavoritesContains.size()).isEqualTo(2);
-    }
+    List<Account> byFavoritesContains = repository.findByFavoritesContains(tag);
+    assertThat(byFavoritesContains.size()).isEqualTo(2);
+  }
 
-    @Test
-    public void getUsers(){
-        long total = repository.count();
+  @Test
+  public void getUsers() {
+    long total = repository.count();
 
-        int size = repository.findAll().size();
+    int size = repository.findAll().size();
 
-        assertThat(total).isEqualTo(size);
+    assertThat(total).isEqualTo(size);
 
-    }
+  }
 
-    @Test
-    public void getUserProfile(){
+  @Test
+  public void getUserProfile() {
 
-        Account account = new Account();
-        account.setUserId("1");
-        account.getProfiles().add("AI");
-        repository.save(account);
+    Account account = new Account();
+    account.setUserId("1");
+    account.getProfiles().add("AI");
+    repository.save(account);
 
-        assertThat(repository.findById(account.getUserId()).get().getProfiles()).contains("AI");
-    }
+    assertThat(repository.findById(account.getUserId()).get().getProfiles()).contains("AI");
+  }
 
-    @Test
-    public void addTag(){
+  @Test
+  public void addTag() {
 
-        Account account = new Account();
-        account.setUserId("1");
-        account.getProfiles().add("AI");
-        account.getFavorites().add("tag1");
-        repository.save(account);
+    Account account = new Account();
+    account.setUserId("1");
+    account.getProfiles().add("AI");
+    account.getFavorites().add("tag1");
+    repository.save(account);
 
-        List<String> newTags = new ArrayList<>();
-        newTags.add("new1");
-        newTags.add("new2");
+    List<String> newTags = new ArrayList<>();
+    newTags.add("new1");
+    newTags.add("new2");
 
-        Account account1 = repository.findById(account.getUserId()).get();
-        account1.getFavorites().addAll(newTags);
-        repository.save(account1);
+    Account account1 = repository.findById(account.getUserId()).get();
+    account1.getFavorites().addAll(newTags);
+    repository.save(account1);
 
-        assertThat(repository.findById(account1.getUserId()).get().getFavorites().size()).isEqualTo(3);
-    }
+    assertThat(repository.findById(account1.getUserId()).get().getFavorites().size()).isEqualTo(3);
+  }
 
-    @Test
-    public void messageTest(){
-        Message message = new Message();
-        message.setTitle("title");
-        message.setContent("content");
+  @Test
+  public void messageTest() {
+    Message message = new Message();
+    message.setTitle("title");
+    message.setContent("content");
 
-        Account account = new Account();
-        account.setUserId("kts1");
-        account.getMessages().add(message);
+    Account account = new Account();
+    account.setUserId("kts1");
+    account.getMessages().add(message);
 
-        repository.save(account);
+    repository.save(account);
 
-        Account account1 = repository.findById(account.getUserId()).get();
+    Account account1 = repository.findById(account.getUserId()).get();
 
-        assertThat(account1.getMessages().size()).isEqualTo(1);
-    }
+    assertThat(account1.getMessages().size()).isEqualTo(1);
+  }
 
 }
