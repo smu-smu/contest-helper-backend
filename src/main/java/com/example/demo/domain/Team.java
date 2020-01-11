@@ -13,13 +13,25 @@ public class Team {
     @Id
     private String teamId;
     private String teamName;
-    //private Competetion compName;
+
+
+
+    private String comment;
+    //private String compid;
 
     private String contactAddress;
-    private List<String> teammates = new ArrayList<>();
+    private List<String> teammatesIds = new ArrayList<>();
 
     public void addTeammate(String accountId) {
-        this.teammates.add(accountId);
+        this.teammatesIds.add(accountId);
+    }
+
+    public String getComment() {
+        return comment;
+    }
+
+    public void setComment(String comment) {
+        this.comment = comment;
     }
 
     public String getContactAddress() {
