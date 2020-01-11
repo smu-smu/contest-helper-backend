@@ -9,5 +9,11 @@ public interface AccountService {
 
     Account signup(Account account);
 
-    List<Account> getTagUser(String tag);
+    List<Account> getUsersByTag(String tag);
+
+    List<Account> getUsers();
+
+    List<String> getUserProfile(String userId);
+
+    List<Account> getUsersByProfile(String profile);
 }

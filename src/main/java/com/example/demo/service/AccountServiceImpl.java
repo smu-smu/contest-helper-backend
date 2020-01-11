@@ -13,6 +13,7 @@ public class AccountServiceImpl implements AccountService {
     @Autowired
     AccountRepository repository;
 
+
     @Override
     public Account getUserInfo(String userId) {
         return repository.findById(userId).orElseGet(()->new Account());
@@ -24,8 +25,23 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
-    public List<Account> getTagUser(String tag) {
+    public List<Account> getUsersByTag(String tag) {
         return repository.findByFavoritesContains(tag);
+    }
+
+    @Override
+    public List<Account> getUsers() {
+        return repository.findAll();
+    }
+
+    @Override
+    public List<String> getUserProfile(String userId) {
+        return getUserInfo(userId).getProfiles();
+    }
+
+    @Override
+    public List<Account> getUsersByProfile(String profile) {
+        return repository.findByProfilesContains(profile);
     }
 
 

@@ -59,4 +59,25 @@ public class AccountRepositoryTest {
         assertThat(byFavoritesContains.size()).isEqualTo(2);
     }
 
+    @Test
+    public void getUsers(){
+        long total = repository.count();
+
+        int size = repository.findAll().size();
+
+        assertThat(total).isEqualTo(size);
+
+    }
+
+    @Test
+    public void getUserProfile(){
+
+        Account account = new Account();
+        account.setUserId("1");
+        account.getProfiles().add("AI");
+        repository.save(account);
+
+        assertThat(repository.findById(account.getUserId()).get().getProfiles()).contains("AI");
+    }
+
 }
