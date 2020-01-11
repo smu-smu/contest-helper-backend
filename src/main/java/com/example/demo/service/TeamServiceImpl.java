@@ -124,7 +124,7 @@ public class TeamServiceImpl implements TeamService {
 
         for (String tag : tags) {
             for (Account account : members) {
-                for (TagScore tagScore : account.getTagScores()) {
+                for (TagScore tagScore : account.getAvgTagScores()) {
                     if (tagScore.getTagName().equals(tag)) {
                         sum += tagScore.getScore();
                         ++plusCount;
