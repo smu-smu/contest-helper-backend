@@ -24,8 +24,8 @@ public class CompetitionService {
         SimpleDateFormat dateForm = new SimpleDateFormat("yyyy.MM.dd");
         Date startDate = dateForm.parse(start);
         Date endDate = dateForm.parse(end);
-        comp.setStartDate(startDate);
-        comp.setEndDate(endDate);
+        comp.setStartDate(start);
+        comp.setEndDate(end);
 
         comp.set_id(name+group+start);
 
