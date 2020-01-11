@@ -11,16 +11,16 @@ import java.util.List;
 
 @Data
 @Document
-public class Competitions {
+public class Competition {
     @Id
     private ObjectId _id;
     private String name;
-    private List<String> cateogory = new ArrayList<>();
+    private List<String> category = new ArrayList<>();
     private String group;
     private Date startDate;
     private Date endDate;
 
     public void addCategory(String category){
-        this.cateogory.add(category);
+        this.category.add(category);
     }
 }

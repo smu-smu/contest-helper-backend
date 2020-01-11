@@ -14,7 +14,7 @@ import java.io.IOException;
 @Service
 public class JsoupService {
 
-    public void getDocument(String url) throws IOException {
+    public Document getDocument(String url) throws IOException {
         // 1. select() 사용법
         //      클래스 이름으로 가져오기
         //      doc.select(".클래스이름");
@@ -22,19 +22,16 @@ public class JsoupService {
         //      doc.select("#id");
         //      클래스에서 <a>태그만 파싱하기
         //      doc.select(".클래스이름 a");
-        Document doc = Jsoup.connect(url).get();
-        System.out.println("DOCUMENT===============");
-        System.out.println(doc.toString());
+        return Jsoup.connect(url).get();
     }
 
     public String getDocumentAsString(String url) throws IOException{
         return Jsoup.connect(url).get().toString();
     }
 
-    public Elements getTableByClass(String url, String className) throws IOException {
+    public Elements getElementsByClassName(String url, String className) throws IOException {
         Document doc = Jsoup.connect(url).get();
-        Elements table = doc.select(className);
-        System.out.println(table);
-        return table;
+        Elements elements = doc.select(className);
+        return elements;
     }
 }

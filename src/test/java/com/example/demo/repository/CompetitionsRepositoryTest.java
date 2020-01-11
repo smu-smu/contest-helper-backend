@@ -1,6 +1,6 @@
 package com.example.demo.repository;
 
-import com.example.demo.domain.Competitions;
+import com.example.demo.domain.Competition;
 import com.example.demo.service.JsoupService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -20,11 +20,11 @@ public class CompetitionsRepositoryTest {
     JsoupService jsoupService;
 
     @Autowired
-    CompetitionsRepository repo;
+    CompetitionRepository repo;
 
     @Test
     public void 공모전추가() throws ParseException {
-        Competitions comp = new Competitions();
+        Competition comp = new Competition();
         comp.setName("테스트공모전");
         comp.setGroup("상명대");
         comp.addCategory("아이디어");
@@ -42,9 +42,9 @@ public class CompetitionsRepositoryTest {
 
         repo.save(comp);
 
-        List<Competitions> list = (List<Competitions>) repo.findAll();
+        List<Competition> list = (List<Competition>) repo.findAll();
 
-        for (Competitions c : list) {
+        for (Competition c : list) {
             System.out.println(c.toString());
         }
     }
