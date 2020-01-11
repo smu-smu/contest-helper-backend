@@ -48,12 +48,23 @@ public class TeamController {
         return teamService.createTeam(team);
     }
 
-    @PostMapping("/team/permit")
-    public Team createTeam(@RequestParam String teamId, @RequestParam String accountId){
-        System.out.println(teamId + "permit" + accountId);
-        return teamSURService.permitSingUp(teamId, accountId);
+    @PostMapping("/team/request")
+    public TeamSignUpRequest requestSignUp(@RequestParam String teamId, @RequestParam String accountId){
+        System.out.println(accountId + "request" + teamId);
+        return teamSURService.requestSignUp(teamId, accountId);
     }
 
+    @PostMapping("/team/permit")
+    public TeamSignUpRequest permitSignUp(@RequestParam String teamId, @RequestParam String accountId){
+        System.out.println(teamId + "permits" + accountId);
+        return teamSURService.permitSignUp(teamId, accountId);
+    }
+
+    @PostMapping("/team/reject")
+    public TeamSignUpRequest rejectSingUp(@RequestParam String teamId, @RequestParam String accountId){
+        System.out.println(teamId + "rejects" + accountId);
+        return teamSURService.rejectSignUp(teamId, accountId);
+    }
 
 
 }

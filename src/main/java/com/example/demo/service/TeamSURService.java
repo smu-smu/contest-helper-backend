@@ -11,7 +11,8 @@ public interface TeamSURService {
 
     List<TeamSignUpRequest> getSURInfoByTeam(String teamId);
 
-    Team permitSignUp(String teamId, String accountId);
-    void rejectSignUp(String teamId, String accountId);
+    TeamSignUpRequest requestSignUp(String teamId, String accountId);
+    TeamSignUpRequest permitSignUp(String teamId, String accountId);
+    TeamSignUpRequest rejectSignUp(String teamId, String accountId);
 
 }

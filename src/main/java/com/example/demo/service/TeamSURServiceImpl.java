@@ -27,24 +27,33 @@ public class TeamSURServiceImpl implements TeamSURService {
         return teamSURRepository.findByTeamId(teamId);
     }
 
+    @Override
+    public TeamSignUpRequest requestSignUp(String teamId, String accountId) {
+        TeamSignUpRequest nTSUR = new TeamSignUpRequest();
+        nTSUR.setAccountId(accountId);
+        nTSUR.setTeamId(teamId);
+        nTSUR.setStatus("ing");
+        return teamSURRepository.save(nTSUR);
+    }
+
 
     //팀 가입 승인(teamId, accountId 사용)
     @Override
-    public Team permitSignUp(String teamId, String accountId) {
+    public TeamSignUpRequest permitSignUp(String teamId, String accountId) {
         Team team = teamRepository.findById(teamId).get();
         team.addTeammate(accountId);
         TeamSignUpRequest tSUR = teamSURRepository.findByTeamIdAndAccountId(teamId, accountId);
         tSUR.permit();
-        teamSURRepository.save(tSUR);
-        return teamRepository.save(team);
+        teamRepository.save(team);
+        return teamSURRepository.save(tSUR);
     }
 
     //팀 가입 거절(teamId, accountId 사용)
     @Override
-    public void rejectSignUp(String teamId, String accountId) {
+    public TeamSignUpRequest rejectSignUp(String teamId, String accountId) {
         TeamSignUpRequest tSUR = teamSURRepository.findByTeamIdAndAccountId(teamId, accountId);
         tSUR.reject();
-        teamSURRepository.save(tSUR);
+        return teamSURRepository.save(tSUR);
     }
 
 }
