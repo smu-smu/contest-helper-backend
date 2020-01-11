@@ -1,15 +1,22 @@
 package com.example.demo.service;
 
-import com.example.demo.domain.Account;
 import com.example.demo.domain.Team;
+import com.example.demo.domain.Participant;
 
 import java.util.List;
 
 public interface TeamService {
-    Team getTeamInfo(String id);
     Team createTeam(Team team);
-    List<Team> getTeams();
-    //List<Team> getTeamsByCmpt(Competition competition);
-    List<Team> getTeamsByAccount(String accountId);
 
+    Participant getParticipantById(String teamId, String id);
+
+    List<Team> getTeams();
+
+    Team request(Participant participant);
+
+    List<Participant> getParticipants(String teamId);
+
+    Team reject(Participant participant);
+
+    Team permit(Participant participant);
 }

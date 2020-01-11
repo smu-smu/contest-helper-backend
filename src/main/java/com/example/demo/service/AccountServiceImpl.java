@@ -8,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class AccountServiceImpl implements AccountService {
@@ -61,10 +60,10 @@ public class AccountServiceImpl implements AccountService {
         return repository.save(account);
     }
 
-    public void checkTagScore(List<TagScore> tagScores, TagScore newTag){
+    public void checkTagScore(List<TagScore> tagScores, TagScore newTag) {
         for (int i = 0; i < tagScores.size(); i++) {
-            if(tagScores.get(i).getTagName().equals(newTag.getTagName())){
-                tagScores.get(i).setScore((tagScores.get(i).getScore()+newTag.getScore())/2);
+            if (tagScores.get(i).getTagName().equals(newTag.getTagName())) {
+                tagScores.get(i).setScore((tagScores.get(i).getScore() + newTag.getScore()) / 2);
                 return;
             }
         }
@@ -76,7 +75,7 @@ public class AccountServiceImpl implements AccountService {
         Account account = repository.findById(userId).get();
         List<TagScore> tagScores = account.getTagScores();
 
-        checkTagScore(tagScores,newTags);
+        checkTagScore(tagScores, newTags);
         return repository.save(account);
     }
 
@@ -90,8 +89,8 @@ public class AccountServiceImpl implements AccountService {
     @Override
     public Account deleteMessage(String userId, Integer messageId) {
         Account account = repository.findById(userId).get();
-        if (!account.getMessages().isEmpty()){
-            account.getMessages().remove(messageId-1);
+        if (!account.getMessages().isEmpty()) {
+            account.getMessages().remove(messageId - 1);
         }
         return repository.save(account);
     }

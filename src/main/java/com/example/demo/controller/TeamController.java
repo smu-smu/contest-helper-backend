@@ -1,8 +1,7 @@
 package com.example.demo.controller;
 
+import com.example.demo.domain.Participant;
 import com.example.demo.domain.Team;
-import com.example.demo.domain.TeamSignUpRequest;
-import com.example.demo.service.TeamSURService;
 import com.example.demo.service.TeamService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -13,57 +12,48 @@ import java.util.List;
 public class TeamController {
 
     @Autowired
-    TeamSURService teamSURService;
+    TeamService service;
 
-    @Autowired
-    TeamService teamService;
-
-    @GetMapping("team/create")
-    public Team test() {
-        return null;
-    }
-
-    @GetMapping("/teamSUR/account/{accountId}")
-    public List<TeamSignUpRequest> teamSURListByAccountId(@PathVariable String accountId) {
-        return teamSURService.getSURInfoByAccount(accountId);
-    }
-
-    @GetMapping("/teamSUR/team/{teamId}")
-    public List<TeamSignUpRequest> teamSURListByTeamId(@PathVariable String teamId) {
-        return teamSURService.getSURInfoByTeam(teamId);
-    }
-
-
-    @GetMapping("/team/account/{accountId}")
-    public List<Team> teamListByAccountId(@PathVariable String accountId){
-        return null;
-        //return teamService.getTeamsByAccount()
-    }
-
-    /** POST **/
-
-    @PostMapping("/team/create")
+    @PostMapping("/team")
     public Team createTeam(@RequestBody Team team) {
-        System.out.println(team);
-        return teamService.createTeam(team);
+        return service.createTeam(team);
     }
+
+    @GetMapping("/team")
+    public List<Team> getTeams() {
+        return service.getTeams();
+    }
+
+    @GetMapping("/team/{teamId}/participant/{participantId}")
+    public Participant getParticipants(@PathVariable String teamId, @PathVariable String participantId) {
+        return service.getParticipantById(teamId, participantId);
+    }
+
+    @GetMapping("/team/{teamId}")
+    public List<Participant> getParticipants(@PathVariable String teamId) {
+        return service.getParticipants(teamId);
+    }
+
+
+    /** POST
+     * @return**/
+
 
     @PostMapping("/team/request")
-    public TeamSignUpRequest requestSignUp(@RequestParam String teamId, @RequestParam String accountId){
-        System.out.println(accountId + "request" + teamId);
-        return teamSURService.requestSignUp(teamId, accountId);
+    public Team request(@RequestBody Participant participant) {
+        return service.request(participant);
     }
 
     @PostMapping("/team/permit")
-    public TeamSignUpRequest permitSignUp(@RequestParam String teamId, @RequestParam String accountId){
-        System.out.println(teamId + "permits" + accountId);
-        return teamSURService.permitSignUp(teamId, accountId);
+    public Team permitSignUp(@RequestBody Participant participant){
+        System.out.println(participant.getTeamId() + "permits" + participant.getAccountId());
+        return service.permit(participant);
     }
 
     @PostMapping("/team/reject")
-    public TeamSignUpRequest rejectSingUp(@RequestParam String teamId, @RequestParam String accountId){
-        System.out.println(teamId + "rejects" + accountId);
-        return teamSURService.rejectSignUp(teamId, accountId);
+    public Team rejectSingUp(@RequestBody Participant participant){
+        System.out.println(participant.getTeamId() + "permits" + participant.getAccountId());
+        return service.reject(participant);
     }
 
 

@@ -4,6 +4,7 @@ import lombok.Data;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -11,34 +12,14 @@ import java.util.List;
 @Document
 public class Team {
     @Id
-    private String teamId;
-    private String teamName;
-
-
-
+    @NotNull
+    private String name;
     private String comment;
-    //private String compid;
+    private String address;
 
-    private String contactAddress;
-    private List<String> teammatesIds = new ArrayList<>();
+    @NotNull
+    private String createdUser;
 
-    public void addTeammate(String accountId) {
-        this.teammatesIds.add(accountId);
-    }
-
-    public String getComment() {
-        return comment;
-    }
-
-    public void setComment(String comment) {
-        this.comment = comment;
-    }
-
-    public String getContactAddress() {
-        return contactAddress;
-    }
-
-    public void setContactAddress(String contactAddress) {
-        this.contactAddress = contactAddress;
-    }
+    private List<String> members = new ArrayList<>();
+    private List<Participant> participants = new ArrayList<>();
 }
