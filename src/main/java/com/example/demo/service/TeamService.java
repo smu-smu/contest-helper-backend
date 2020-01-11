@@ -22,5 +22,5 @@ public interface TeamService {
 
     Team updateComment(Team team);
 
-    Double getTeamScore(Team team);
+    Double getTeamScore(String teamId);
 }
