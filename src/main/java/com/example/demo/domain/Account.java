@@ -1,6 +1,7 @@
 package com.example.demo.domain;
 
 import lombok.Data;
+import org.omg.CORBA.PRIVATE_MEMBER;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -18,10 +19,12 @@ public class Account {
     private List<String> favorites = new ArrayList<>();
     private List<String> profiles = new ArrayList<>();
 
-    public void addProfile(String profile){
+
+    public void addProfile(String profile) {
         this.profiles.add(profile);
     }
-    public void addFavorites(String favorite){
+
+    public void addFavorites(String favorite) {
         this.favorites.add(favorite);
     }
 }

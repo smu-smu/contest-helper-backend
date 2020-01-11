@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.data.mongo.DataMongoTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import java.util.List;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -29,12 +30,33 @@ public class AccountRepositoryTest {
         repository.save(account);
 
         Optional<Account> byId = repository.findById(account.getUserId());
-        System.out.println(byId.get());
+        assertThat(byId.orElseGet(() -> new Account())).isEqualTo(account);
+
+        Optional<Account> byId2 = repository.findById("adfasdfdf");
+
+        assertThat(byId2.orElseGet(() -> new Account())).isEqualTo(new Account());
     }
 
     @Test
-    public void addFavorite(){
+    public void getTagUser(){
+        String tag="aaa";
 
+        Account account = new Account();
+        account.getFavorites().add("aaa");
+
+        repository.save(account);
+
+        Account account2 = new Account();
+        account2.getFavorites().add("b");
+
+        repository.save(account2);
+
+        Account account3 = new Account();
+        account3.getFavorites().add("aaa");
+        repository.save(account3);
+
+        List<Account> byFavoritesContains = repository.findByFavoritesContains(tag);
+        assertThat(byFavoritesContains.size()).isEqualTo(2);
     }
 
 }
