@@ -27,6 +27,8 @@ public class Account {
 
     private List<TagScore> avgTagScores = new ArrayList<>();
 
+    private List<String> myTeams = new ArrayList<>();
+
     @Field("messages")
     private List<Message> messages = new ArrayList<>();
 }

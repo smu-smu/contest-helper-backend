@@ -28,4 +28,6 @@ public interface AccountService {
     Account sendMessage(Message message, String userId);
 
     Account deleteMessage(String userId, Integer messageId);
+
+    List<String> getTeamsById(String userId);
 }

@@ -113,5 +113,10 @@ public class AccountServiceImpl implements AccountService {
         return repository.save(account);
     }
 
+    @Override
+    public List<String> getTeamsById(String userId) {
+        return repository.findById(userId).get().getMyTeams();
+    }
+
 
 }
