@@ -111,7 +111,8 @@ public class TeamServiceImpl implements TeamService {
     }
 
     @Override
-    public Double getTeamScore(Team team) {
+    public Double getTeamScore(String teamId) {
+        Team team = repository.findById(teamId).get();
         List<Account> members = new ArrayList<>();
         List<String> membersIds = team.getMembers();
         for (String id : membersIds) {

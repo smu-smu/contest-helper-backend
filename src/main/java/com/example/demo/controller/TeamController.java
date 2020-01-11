@@ -34,6 +34,8 @@ public class TeamController {
         return service.getParticipants(teamId);
     }
 
+    @GetMapping("/team/teamscore/{teamId}")
+
 
     /** POST **/
 
@@ -58,6 +60,5 @@ public class TeamController {
     public Team updateComment(@RequestBody Team team){
         return service.updateComment(team);
     }
-
 
 }
