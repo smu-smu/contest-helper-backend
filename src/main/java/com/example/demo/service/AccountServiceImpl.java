@@ -1,12 +1,14 @@
 package com.example.demo.service;
 
 import com.example.demo.domain.Account;
+import com.example.demo.domain.Message;
 import com.example.demo.domain.TagScore;
 import com.example.demo.repository.AccountRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class AccountServiceImpl implements AccountService {
@@ -75,6 +77,22 @@ public class AccountServiceImpl implements AccountService {
         List<TagScore> tagScores = account.getTagScores();
 
         checkTagScore(tagScores,newTags);
+        return repository.save(account);
+    }
+
+    @Override
+    public Account sendMessage(Message message, String userId) {
+        Account account = repository.findById(userId).get();
+        account.getMessages().add(message);
+        return repository.save(account);
+    }
+
+    @Override
+    public Account deleteMessage(String userId, Integer messageId) {
+        Account account = repository.findById(userId).get();
+        if (!account.getMessages().isEmpty()){
+            account.getMessages().remove(messageId-1);
+        }
         return repository.save(account);
     }
 }

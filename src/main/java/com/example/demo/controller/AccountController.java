@@ -1,6 +1,7 @@
 package com.example.demo.controller;
 
 import com.example.demo.domain.Account;
+import com.example.demo.domain.Message;
 import com.example.demo.domain.TagScore;
 import com.example.demo.service.AccountService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -70,5 +71,15 @@ public class AccountController {
     @PostMapping("/account/tagscore/{userId}")
     public Account updateTagScore(@RequestBody TagScore tagScore, @PathVariable String userId){
         return service.updateTagScores(tagScore,userId);
+    }
+
+    @PostMapping("/account/message/{userId}")
+    public Account sendMessageToUser(@RequestBody Message message, @PathVariable String userId){
+        return service.sendMessage(message,userId);
+    }
+
+    @DeleteMapping("/account/message/{userId}/{messageId}")
+    public Account deleteMessageToUser(@PathVariable String userId, @PathVariable Integer messageId){
+        return service.deleteMessage(userId,messageId);
     }
 }

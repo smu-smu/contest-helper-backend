@@ -1,6 +1,7 @@
 package com.example.demo.repository;
 
 import com.example.demo.domain.Account;
+import com.example.demo.domain.Message;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -98,6 +99,23 @@ public class AccountRepositoryTest {
         repository.save(account1);
 
         assertThat(repository.findById(account1.getUserId()).get().getFavorites().size()).isEqualTo(3);
+    }
+
+    @Test
+    public void messageTest(){
+        Message message = new Message();
+        message.setTitle("title");
+        message.setContent("content");
+
+        Account account = new Account();
+        account.setUserId("kts1");
+        account.getMessages().add(message);
+
+        repository.save(account);
+
+        Account account1 = repository.findById(account.getUserId()).get();
+
+        assertThat(account1.getMessages().size()).isEqualTo(1);
     }
 
 }
