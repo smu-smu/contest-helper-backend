@@ -13,7 +13,7 @@ import java.util.List;
 @Document
 public class Competition {
     @Id
-    private String _id;
+    private String id;
     private String name;
     private List<String> category = new ArrayList<>();
     private String group;

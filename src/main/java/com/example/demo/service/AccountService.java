@@ -32,4 +32,6 @@ public interface AccountService {
     Account signin(Account account);
 
     List<String> getTeamsById(String userId);
+
+    List<Message> getUserMessages(String userId);
 }

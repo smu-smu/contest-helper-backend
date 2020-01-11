@@ -1,5 +1,6 @@
 package com.example.demo.controller;
 
+import com.example.demo.aspect.PerfLogging;
 import com.example.demo.domain.Participant;
 import com.example.demo.domain.Team;
 import com.example.demo.service.TeamService;
@@ -20,6 +21,7 @@ public class TeamController {
         return service.createTeam(team);
     }
 
+    @PerfLogging
     @GetMapping("/team")
     public List<Team> getTeams() {
         return service.getTeams();

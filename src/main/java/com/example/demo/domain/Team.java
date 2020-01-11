@@ -6,6 +6,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Data
@@ -22,5 +23,6 @@ public class Team {
     private String createdUser;
 
     private List<String> members = new ArrayList<>();
+
     private List<Participant> participants = new ArrayList<>();
 }

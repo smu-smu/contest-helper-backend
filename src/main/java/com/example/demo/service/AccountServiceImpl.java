@@ -122,5 +122,10 @@ public class AccountServiceImpl implements AccountService {
         return repository.findById(userId).get().getMyTeams();
     }
 
+    @Override
+    public List<Message> getUserMessages(String userId) {
+        return repository.findById(userId).get().getMessages();
+    }
+
 
 }

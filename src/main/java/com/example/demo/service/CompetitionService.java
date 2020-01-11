@@ -27,7 +27,7 @@ public class CompetitionService {
         comp.setStartDate(start);
         comp.setEndDate(end);
 
-        comp.set_id(name+group+start);
+        comp.setId(name+group+start);
 
         competitionRepository.save(comp);
     }

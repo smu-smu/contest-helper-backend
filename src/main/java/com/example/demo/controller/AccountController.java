@@ -50,6 +50,9 @@ public class AccountController {
         return service.getUserProfile(userId);
     }
 
+    @GetMapping("/account/message/{userId}")
+    public List<Message> getUserMessages(@PathVariable String userId){ return service.getUserMessages(userId);}
+
     /**
      * POST
      **/
