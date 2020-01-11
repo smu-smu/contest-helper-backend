@@ -8,6 +8,10 @@ import java.util.List;
 public interface TeamService {
     Team createTeam(Team team);
 
+    Team closeTeam(Team team);
+
+    Team terminateTeam(Team team);
+
     Participant getParticipantById(String teamId, String id);
 
     List<Team> getTeams();

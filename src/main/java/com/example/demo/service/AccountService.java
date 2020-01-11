@@ -1,8 +1,6 @@
 package com.example.demo.service;
 
-import com.example.demo.domain.Account;
-import com.example.demo.domain.Message;
-import com.example.demo.domain.TagScore;
+import com.example.demo.domain.*;
 
 import java.util.List;
 
@@ -23,13 +21,20 @@ public interface AccountService {
 
     Account addProfilesToUser(String userId, List<String> profiles);
 
+    List<Estimate> getEstiListByAccountId(String userId);
+
     Account newTagScore(TagScore tagScore, String userId);
+
+    List<Account> getAppraiseeByEstimate(Estimate estimate);
+
+    Account estimateTeam(Estimate estimate, List<EstimateScore> scores);
 
     Account sendMessage(Message message, String userId);
 
     Account deleteMessage(String userId, Integer messageId);
 
     Account signin(Account account);
+
 
     List<String> getTeamsById(String userId);
 

@@ -22,6 +22,8 @@ public class Team {
     @NotNull
     private String createdUser;
 
+    private String state;
+
     private List<String> members = new ArrayList<>();
 
     private List<Participant> participants = new ArrayList<>();

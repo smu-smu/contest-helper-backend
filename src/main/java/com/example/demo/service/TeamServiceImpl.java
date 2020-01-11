@@ -3,6 +3,7 @@ package com.example.demo.service;
 import com.example.demo.domain.*;
 import com.example.demo.repository.AccountRepository;
 import com.example.demo.repository.CompetitionRepository;
+import com.example.demo.repository.EstimateRepository;
 import com.example.demo.repository.TeamRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -22,10 +23,46 @@ public class TeamServiceImpl implements TeamService {
     @Autowired
     CompetitionRepository competitionRepository;
 
+    @Autowired
+    EstimateRepository estimateRepository;
+
     @Override
     public Team createTeam(Team team) {
         team.getMembers().add(team.getCreatedUser());
+        team.setState("inAction");
         return repository.save(team);
+    }
+
+    @Override
+    public Team closeTeam(Team team) {
+        Team tempTeam = repository.findById(team.getName()).get();
+        if (!(tempTeam.getState().equals("Closed")||tempTeam.getState().equals("terminated"))){
+            return null;
+        }
+        for (String memberId : tempTeam.getMembers()) {
+            Estimate estimate = new Estimate();
+            estimate.setAccountId(memberId);
+            estimate.setTeamId(tempTeam.getName());
+            estimateRepository.save(estimate);
+            Message message = new Message();
+            message.setTitle("평가를 해주세요!! - " + tempTeam.getName());
+            message.setContent(tempTeam.getName() + "팀의 활동이 종료되었습니다.");
+            Account tempAccount = accountRepository.findById(memberId).get();
+            tempAccount.getMessages().add(message);
+            accountRepository.save(tempAccount);
+        }
+        tempTeam.setState("Closed");
+        return repository.save(tempTeam);
+    }
+
+    @Override
+    public Team terminateTeam(Team team){
+        Team tempTeam = repository.findById(team.getName()).get();
+        if (!estimateRepository.findByTeamId(tempTeam.getName()).isEmpty()) {
+            return null;
+        }
+        team.setState("Terminated");
+        return repository.save(tempTeam);
     }
 
     @Override
