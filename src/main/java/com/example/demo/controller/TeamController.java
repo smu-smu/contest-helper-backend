@@ -1,0 +1,63 @@
+package com.example.demo.controller;
+
+import com.example.demo.domain.Participant;
+import com.example.demo.domain.Team;
+import com.example.demo.service.TeamService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+
+@RestController
+public class TeamController {
+
+    @Autowired
+    TeamService service;
+
+    @PostMapping("/team")
+    public Team createTeam(@RequestBody Team team) {
+        return service.createTeam(team);
+    }
+
+    @GetMapping("/team")
+    public List<Team> getTeams() {
+        return service.getTeams();
+    }
+
+    @GetMapping("/team/{teamId}/participant/{participantId}")
+    public Participant getParticipants(@PathVariable String teamId, @PathVariable String participantId) {
+        return service.getParticipantById(teamId, participantId);
+    }
+
+    @GetMapping("/team/{teamId}")
+    public List<Participant> getParticipants(@PathVariable String teamId) {
+        return service.getParticipants(teamId);
+    }
+
+
+    /** POST **/
+
+    @PostMapping("/team/request")
+    public Team request(@RequestBody Participant participant) {
+        return service.request(participant);
+    }
+
+    @PostMapping("/team/permit")
+    public Team permitSignUp(@RequestBody Participant participant){
+        System.out.println(participant.getTeamId() + "permits" + participant.getAccountId());
+        return service.permit(participant);
+    }
+
+    @PostMapping("/team/reject")
+    public Team rejectSingUp(@RequestBody Participant participant){
+        System.out.println(participant.getTeamId() + "permits" + participant.getAccountId());
+        return service.reject(participant);
+    }
+
+    @PostMapping("/team/comment")
+    public Team updateComment(@RequestBody Team team){
+        return service.updateComment(team);
+    }
+
+
+}
