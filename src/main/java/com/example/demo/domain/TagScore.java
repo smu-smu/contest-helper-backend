@@ -6,6 +6,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @Data
 @Document
 public class TagScore {
-    private String tagName;
-    private Double score;
+
+  private String tagName;
+  private Double score;
 }

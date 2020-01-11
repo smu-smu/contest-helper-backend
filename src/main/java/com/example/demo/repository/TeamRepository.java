@@ -7,5 +7,5 @@ import java.util.List;
 
 public interface TeamRepository extends MongoRepository<Team, String> {
 
-    List<Team> findByContestId(String contestId);
+  List<Team> findByContestId(String contestId);
 }

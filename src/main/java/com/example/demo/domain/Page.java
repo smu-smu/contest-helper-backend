@@ -9,23 +9,24 @@ import org.w3c.dom.Text;
 @Data
 @Document
 public class Page {
-    @Id
-    private String id;
-    private String text;
 
-    public String getId() {
-        return id;
-    }
+  @Id
+  private String id;
+  private String text;
 
-    public void setId(String id) {
-        this.id = id;
-    }
+  public String getId() {
+    return id;
+  }
 
-    public String getText() {
-        return text;
-    }
+  public void setId(String id) {
+    this.id = id;
+  }
 
-    public void setText(String text) {
-        this.text = text;
-    }
+  public String getText() {
+    return text;
+  }
+
+  public void setText(String text) {
+    this.text = text;
+  }
 }

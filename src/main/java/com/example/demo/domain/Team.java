@@ -11,18 +11,19 @@ import java.util.List;
 @Data
 @Document
 public class Team {
-    @Id
-    @NotNull
-    private String name;
-    private String contestId;
-    private String comment;
-    private String address;
 
-    @NotNull
-    private String createdUser;
+  @Id
+  @NotNull
+  private String name;
+  private String contestId;
+  private String comment;
+  private String address;
 
-    private String state;
+  @NotNull
+  private String createdUser;
 
-    private List<String> members = new ArrayList<>();
-    private List<Participant> participants = new ArrayList<>();
+  private String state;
+
+  private List<String> members = new ArrayList<>();
+  private List<Participant> participants = new ArrayList<>();
 }

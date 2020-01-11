@@ -13,31 +13,33 @@ import java.util.List;
 
 @Service
 public class CompetitionService {
-    @Autowired
-    CompetitionRepository competitionRepository;
 
-    public void save(String name, ArrayList<String> category, String group, String start, String end) throws ParseException {
-        Competition comp = new Competition();
-        comp.setName(name);
-        comp.setCategory(category);
-        comp.setGroup(group);
-        SimpleDateFormat dateForm = new SimpleDateFormat("yyyy.MM.dd");
-        Date startDate = dateForm.parse(start);
-        Date endDate = dateForm.parse(end);
-        comp.setStartDate(start);
-        comp.setEndDate(end);
+  @Autowired
+  CompetitionRepository competitionRepository;
 
-        comp.set_id(name+group+start);
+  public void save(String name, ArrayList<String> category, String group, String start, String end)
+      throws ParseException {
+    Competition comp = new Competition();
+    comp.setName(name);
+    comp.setCategory(category);
+    comp.setGroup(group);
+    SimpleDateFormat dateForm = new SimpleDateFormat("yyyy.MM.dd");
+    Date startDate = dateForm.parse(start);
+    Date endDate = dateForm.parse(end);
+    comp.setStartDate(start);
+    comp.setEndDate(end);
 
-        competitionRepository.save(comp);
-    }
+    comp.set_id(name + group + start);
 
-    public List<Competition> findAll(){
-        return (List<Competition>) competitionRepository.findAll();
-    }
+    competitionRepository.save(comp);
+  }
 
-    public void deleteAll(){
-        competitionRepository.deleteAll();
-    }
+  public List<Competition> findAll() {
+    return (List<Competition>) competitionRepository.findAll();
+  }
+
+  public void deleteAll() {
+    competitionRepository.deleteAll();
+  }
 
 }

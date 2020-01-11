@@ -5,36 +5,37 @@ import com.example.demo.domain.*;
 import java.util.List;
 
 public interface AccountService {
-    Account getUserInfo(String id);
 
-    Account signup(Account account);
+  Account getUserInfo(String id);
 
-    List<Account> getUsersByTag(String tag);
+  Account signup(Account account);
 
-    List<Account> getUsers();
+  List<Account> getUsersByTag(String tag);
 
-    List<String> getUserProfile(String userId);
+  List<Account> getUsers();
 
-    List<Account> getUsersByProfile(String profile);
+  List<String> getUserProfile(String userId);
 
-    Account addTagsToUser(String userId, List<String> profiles);
+  List<Account> getUsersByProfile(String profile);
 
-    Account addProfilesToUser(String userId, List<String> profiles);
+  Account addTagsToUser(String userId, List<String> profiles);
 
-    List<Estimate> getEstiListByAccountId(String userId);
+  Account addProfilesToUser(String userId, List<String> profiles);
 
-    Account newTagScore(TagScore tagScore, String userId);
+  List<Estimate> getEstiListByAccountId(String userId);
 
-    List<Account> getAppraiseeByEstimate(Estimate estimate);
+  Account newTagScore(TagScore tagScore, String userId);
 
-    Account estimateTeam(Estimate estimate, List<EstimateScore> scores);
+  List<Account> getAppraiseeByEstimate(Estimate estimate);
 
-    Account sendMessage(Message message, String userId);
+  Account estimateTeam(Estimate estimate);
 
-    Account deleteMessage(String userId, Integer messageId);
+  Account sendMessage(Message message, String userId);
 
-    Account signin(Account account);
+  Account deleteMessage(String userId, Integer messageId);
+
+  Account signin(Account account);
 
 
-    List<String> getTeamsById(String userId);
+  List<String> getTeamsById(String userId);
 }

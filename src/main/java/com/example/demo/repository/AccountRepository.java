@@ -8,9 +8,9 @@ import java.util.Optional;
 
 public interface AccountRepository extends MongoRepository<Account, String> {
 
-    List<Account> findByFavoritesContains(String tag);
+  List<Account> findByFavoritesContains(String tag);
 
-    List<Account> findByProfilesContains(String profile);
+  List<Account> findByProfilesContains(String profile);
 
-    Optional<Account> findByUserIdAndAndPassword(String userId, String password);
+  Optional<Account> findByUserIdAndAndPassword(String userId, String password);
 }

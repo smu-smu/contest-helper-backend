@@ -9,9 +9,11 @@ import javax.validation.constraints.NotNull;
 @Data
 @Document
 public class Participant {
-    @Id @NotNull
-    private String accountId;
-    @NotNull
-    private String teamId;
-    private String status="waiting";
+
+  @Id
+  @NotNull
+  private String accountId;
+  @NotNull
+  private String teamId;
+  private String status = "waiting";
 }

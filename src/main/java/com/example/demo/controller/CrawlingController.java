@@ -17,44 +17,45 @@ import java.util.List;
 
 @RestController
 public class CrawlingController {
-    private static String URL = "https://www.thinkcontest.com/";
 
-    @Autowired
-    JsoupService jsoupService;
+  private static String URL = "https://www.thinkcontest.com/";
 
-    @Autowired
-    CompetitionService competitionService;
+  @Autowired
+  JsoupService jsoupService;
 
-    @GetMapping("/contest")
-    public void contest() throws IOException, ParseException {
-        Document doc = jsoupService.getDocument(URL);
-        Elements contest = doc.select(".all-contest");
-        Elements tbody = contest.select("tbody");
-        for(Element tr : tbody.select("tr")){
-            Elements tds = tr.select("td");
-            String contestName = tds.get(0).selectFirst(".contest-title").text();
-            Elements contestCate = tds.get(0).select(".contest-cate");
-            ArrayList<String> category = new ArrayList<>();
-            for(Element e : contestCate.select(".cate-name")){
-                String item = e.text();
-                category.add(item);
-            }
-            String contestGroup = tds.get(1).text();
-            String contestDates = tds.get(3).text();
-            String startDate = contestDates.substring(0,10);
-            String endDate = contestDates.substring(13,23);
+  @Autowired
+  CompetitionService competitionService;
 
-            competitionService.save(contestName, category, contestGroup, startDate, endDate);
-        }
+  @GetMapping("/contest")
+  public void contest() throws IOException, ParseException {
+    Document doc = jsoupService.getDocument(URL);
+    Elements contest = doc.select(".all-contest");
+    Elements tbody = contest.select("tbody");
+    for (Element tr : tbody.select("tr")) {
+      Elements tds = tr.select("td");
+      String contestName = tds.get(0).selectFirst(".contest-title").text();
+      Elements contestCate = tds.get(0).select(".contest-cate");
+      ArrayList<String> category = new ArrayList<>();
+      for (Element e : contestCate.select(".cate-name")) {
+        String item = e.text();
+        category.add(item);
+      }
+      String contestGroup = tds.get(1).text();
+      String contestDates = tds.get(3).text();
+      String startDate = contestDates.substring(0, 10);
+      String endDate = contestDates.substring(13, 23);
+
+      competitionService.save(contestName, category, contestGroup, startDate, endDate);
     }
+  }
 
-    @GetMapping("/contest/deleteAll")
-    public void contest_deleteAll(){
-        competitionService.deleteAll();
-    }
+  @GetMapping("/contest/deleteAll")
+  public void contest_deleteAll() {
+    competitionService.deleteAll();
+  }
 
-    @GetMapping("/contest/list")
-    public List<Competition> contest_list(){
-        return competitionService.findAll();
-    }
+  @GetMapping("/contest/list")
+  public List<Competition> contest_list() {
+    return competitionService.findAll();
+  }
 }
