@@ -107,4 +107,9 @@ public class TeamServiceImpl implements TeamService {
         team1.setComment(team.getComment());
         return repository.save(team1);
     }
+
+    @Override
+    public List<Team> getTeamsByContestId(String contestId) {
+        return repository.findByContestId(contestId);
+    }
 }

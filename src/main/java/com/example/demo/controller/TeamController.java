@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@CrossOrigin("*")
 @RestController
 public class TeamController {
 
@@ -32,6 +33,11 @@ public class TeamController {
     @GetMapping("/team/{teamId}")
     public List<Participant> getParticipants(@PathVariable String teamId) {
         return service.getParticipants(teamId);
+    }
+
+    @GetMapping("/team/contestid/{contestId}")
+    public List<Team> getTeamsByContestId(@PathVariable String contestId) {
+        return service.getTeamsByContestId(contestId);
     }
 
 

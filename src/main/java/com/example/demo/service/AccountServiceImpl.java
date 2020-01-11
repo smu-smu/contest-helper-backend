@@ -94,4 +94,9 @@ public class AccountServiceImpl implements AccountService {
         }
         return repository.save(account);
     }
+
+    @Override
+    public Account signin(Account account) {
+        return repository.findByUserIdAndAndPassword(account.getUserId(), account.getPassword()).orElseGet(() -> new Account());
+    }
 }

@@ -21,4 +21,6 @@ public interface TeamService {
     Team permit(Participant participant);
 
     Team updateComment(Team team);
+
+    List<Team> getTeamsByContestId(String contestId);
 }

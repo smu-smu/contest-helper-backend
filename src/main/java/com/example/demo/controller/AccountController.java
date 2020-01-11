@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@CrossOrigin("*")
 @RestController
 public class AccountController {
 
@@ -52,6 +53,11 @@ public class AccountController {
     /**
      * POST
      **/
+    @PostMapping("/account/signin")
+    public Account signin(@RequestBody Account account) {
+        return service.signin(account);
+    }
+
     @PostMapping("/account/signup")
     public Account signup(@RequestBody Account account) {
         System.out.println(account);
