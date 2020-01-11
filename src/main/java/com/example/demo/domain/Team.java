@@ -15,10 +15,15 @@ public class Team {
     private String teamName;
     //private Competetion compName;
 
-    private List<Account> teammates = new ArrayList<>();
+    private List<String> contactAddress = new ArrayList<>();
+    private List<String> teammates = new ArrayList<>();
 
-    public void addTeammate(Account teammate) {
-        this.teammates.add(teammate);
+    public void addTeammate(String accountId) {
+        this.teammates.add(accountId);
+    }
+
+    public void addAddress(String address){
+        this.contactAddress.add(address);
     }
 
 

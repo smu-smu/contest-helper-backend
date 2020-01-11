@@ -9,5 +9,6 @@ public interface TeamSURRepository extends MongoRepository<TeamSignUpRequest, St
 
     List<TeamSignUpRequest> findByAccountId(String accountId);
     List<TeamSignUpRequest> findByTeamId(String teamId);
+    TeamSignUpRequest findByTeamIdAndAccountId(String teamId, String accountId);
 
 }
