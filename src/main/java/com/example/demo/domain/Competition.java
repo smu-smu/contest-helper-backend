@@ -17,8 +17,8 @@ public class Competition {
     private String name;
     private List<String> category = new ArrayList<>();
     private String group;
-    private Date startDate;
-    private Date endDate;
+    private String startDate;
+    private String endDate;
 
     public void addCategory(String category){
         this.category.add(category);
