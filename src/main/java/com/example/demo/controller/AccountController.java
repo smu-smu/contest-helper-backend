@@ -82,4 +82,9 @@ public class AccountController {
     public Account deleteMessageToUser(@PathVariable String userId, @PathVariable Integer messageId){
         return service.deleteMessage(userId,messageId);
     }
+
+    @PostMapping("/account/team/{userId}")
+    public List<String> getTeamsById(@PathVariable String userId){
+        return service.getTeamsById(userId);
+    }
 }
