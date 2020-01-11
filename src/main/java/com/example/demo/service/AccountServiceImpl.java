@@ -103,11 +103,12 @@ public class AccountServiceImpl implements AccountService {
         ++memberIndex;
       }
     }
-    estimateRepository.delete(estimate);
+
     if (estimateRepository.findByTeamId(estimate.getTeamId()).isEmpty()) {
       tempTeam.setState("Terminated");
       teamRepository.save(tempTeam);
     }
+    estimateRepository.delete(estimate);
     return repository.findById(estimate.getAccountId()).get();
   }
 
