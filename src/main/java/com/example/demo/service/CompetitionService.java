@@ -27,11 +27,17 @@ public class CompetitionService {
         comp.setStartDate(startDate);
         comp.setEndDate(endDate);
 
+        comp.set_id(name+group+start);
+
         competitionRepository.save(comp);
     }
 
     public List<Competition> findAll(){
         return (List<Competition>) competitionRepository.findAll();
+    }
+
+    public void deleteAll(){
+        competitionRepository.deleteAll();
     }
 
 }

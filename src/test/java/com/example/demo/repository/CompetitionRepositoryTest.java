@@ -15,7 +15,7 @@ import java.util.List;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-public class CompetitionsRepositoryTest {
+public class CompetitionRepositoryTest {
     @Autowired
     JsoupService jsoupService;
 

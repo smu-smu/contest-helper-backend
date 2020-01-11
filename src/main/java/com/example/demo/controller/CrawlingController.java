@@ -48,6 +48,11 @@ public class CrawlingController {
         }
     }
 
+    @GetMapping("/contest/deleteAll")
+    public void contest_deleteAll(){
+        competitionService.deleteAll();
+    }
+
     @GetMapping("/contest/list")
     public List<Competition> contest_list(){
         return competitionService.findAll();
