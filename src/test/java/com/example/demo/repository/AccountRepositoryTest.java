@@ -26,7 +26,6 @@ public class AccountRepositoryTest {
         account.setName("kts");
         account.setUserId("1");
         account.setPassword("kts");
-        account.addProfile("profiles");
 
         repository.save(account);
 

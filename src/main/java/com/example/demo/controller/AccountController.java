@@ -1,6 +1,7 @@
 package com.example.demo.controller;
 
 import com.example.demo.domain.Account;
+import com.example.demo.domain.TagScore;
 import com.example.demo.service.AccountService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -13,11 +14,13 @@ public class AccountController {
     @Autowired
     AccountService service;
 
-    /** GET **/
+    /**
+     * GET
+     **/
 
     // 전체 account 조회
     @GetMapping("/account")
-    public List<Account> getUsers(){
+    public List<Account> getUsers() {
         return service.getUsers();
     }
 
@@ -41,12 +44,13 @@ public class AccountController {
 
     // 특정 user의 profile
     @GetMapping("/account/profile/{userId}")
-    public List<String> getUserProfile(@PathVariable String userId){
+    public List<String> getUserProfile(@PathVariable String userId) {
         return service.getUserProfile(userId);
     }
 
-    /** POST **/
-
+    /**
+     * POST
+     **/
     @PostMapping("/account/signup")
     public Account signup(@RequestBody Account account) {
         System.out.println(account);
@@ -54,12 +58,17 @@ public class AccountController {
     }
 
     @PostMapping("/account/tag")
-    public Account addTagsToUser(@RequestBody Account account){
+    public Account addTagsToUser(@RequestBody Account account) {
         return service.addTagsToUser(account.getUserId(), account.getFavorites());
     }
 
     @PostMapping("/account/profiles")
-    public Account addProfileToUser(@RequestBody Account account){
+    public Account addProfileToUser(@RequestBody Account account) {
         return service.addProfilesToUser(account.getUserId(), account.getProfiles());
+    }
+
+    @PostMapping("/account/tagscore/{userId}")
+    public Account updateTagScore(@RequestBody TagScore tagScore, @PathVariable String userId){
+        return service.updateTagScores(tagScore,userId);
     }
 }

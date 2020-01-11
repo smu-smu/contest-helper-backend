@@ -1,17 +1,19 @@
 package com.example.demo.domain;
 
 import lombok.Data;
-import org.omg.CORBA.PRIVATE_MEMBER;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.annotation.Transient;
 import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.Field;
 
+import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 
 @Data
 @Document
 public class Account {
-    @Id
+    @Id @NotNull
     private String userId;
     private String password;
     private String name;
@@ -19,12 +21,6 @@ public class Account {
     private List<String> favorites = new ArrayList<>();
     private List<String> profiles = new ArrayList<>();
 
-
-    public void addProfile(String profile) {
-        this.profiles.add(profile);
-    }
-
-    public void addFavorites(String favorite) {
-        this.favorites.add(favorite);
-    }
+    @Field("tagScores")
+    private List<TagScore> tagScores = new ArrayList<>();
 }

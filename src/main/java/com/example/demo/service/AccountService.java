@@ -1,6 +1,7 @@
 package com.example.demo.service;
 
 import com.example.demo.domain.Account;
+import com.example.demo.domain.TagScore;
 
 import java.util.List;
 
@@ -20,4 +21,6 @@ public interface AccountService {
     Account addTagsToUser(String userId, List<String> profiles);
 
     Account addProfilesToUser(String userId, List<String> profiles);
+
+    Account updateTagScores(TagScore tagScore, String userId);
 }
