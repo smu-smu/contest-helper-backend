@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.data.mongo.DataMongoTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -78,6 +79,26 @@ public class AccountRepositoryTest {
         repository.save(account);
 
         assertThat(repository.findById(account.getUserId()).get().getProfiles()).contains("AI");
+    }
+
+    @Test
+    public void addTag(){
+
+        Account account = new Account();
+        account.setUserId("1");
+        account.getProfiles().add("AI");
+        account.getFavorites().add("tag1");
+        repository.save(account);
+
+        List<String> newTags = new ArrayList<>();
+        newTags.add("new1");
+        newTags.add("new2");
+
+        Account account1 = repository.findById(account.getUserId()).get();
+        account1.getFavorites().addAll(newTags);
+        repository.save(account1);
+
+        assertThat(repository.findById(account1.getUserId()).get().getFavorites().size()).isEqualTo(3);
     }
 
 }

@@ -16,4 +16,8 @@ public interface AccountService {
     List<String> getUserProfile(String userId);
 
     List<Account> getUsersByProfile(String profile);
+
+    Account addTagsToUser(String userId, List<String> profiles);
+
+    Account addProfilesToUser(String userId, List<String> profiles);
 }

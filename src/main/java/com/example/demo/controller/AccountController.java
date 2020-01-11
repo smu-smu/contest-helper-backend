@@ -13,10 +13,39 @@ public class AccountController {
     @Autowired
     AccountService service;
 
+    /** GET **/
+
+    // 전체 account 조회
     @GetMapping("/account")
     public List<Account> getUsers(){
         return service.getUsers();
     }
+
+    // user id를 기준으로 특정 user 찾기
+    @GetMapping("/account/{userId}")
+    public Account getUserByUser_Id(@PathVariable String userId) {
+        return service.getUserInfo(userId);
+    }
+
+    // 특정 tag를 즐겨찾기한 user 목록
+    @GetMapping("/account/tag/{tag}")
+    public List<Account> getUsersByTag(@PathVariable String tag) {
+        return service.getUsersByTag(tag);
+    }
+
+    // 특정 profile이 있는 user 목록
+    @GetMapping("/account/tag/{profile}")
+    public List<Account> getUsersByProfile(@PathVariable String profile) {
+        return service.getUsersByProfile(profile);
+    }
+
+    // 특정 user의 profile
+    @GetMapping("/account/profile/{userId}")
+    public List<String> getUserProfile(@PathVariable String userId){
+        return service.getUserProfile(userId);
+    }
+
+    /** POST **/
 
     @PostMapping("/account/signup")
     public Account signup(@RequestBody Account account) {
@@ -24,23 +53,13 @@ public class AccountController {
         return service.signup(account);
     }
 
-    @GetMapping("/account/{userId}")
-    public Account getUserByUser_Id(@PathVariable String userId) {
-        return service.getUserInfo(userId);
+    @PostMapping("/account/tag")
+    public Account addTagsToUser(@RequestBody Account account){
+        return service.addTagsToUser(account.getUserId(), account.getFavorites());
     }
 
-    @GetMapping("/account/tag/{tag}")
-    public List<Account> getUsersByTag(@PathVariable String tag) {
-        return service.getUsersByTag(tag);
-    }
-
-    @GetMapping("/account/tag/{profile}")
-    public List<Account> getUsersByProfile(@PathVariable String profile) {
-        return service.getUsersByProfile(profile);
-    }
-
-    @GetMapping("/account/profile/{userId}")
-    public List<String> getUserProfile(@PathVariable String userId){
-        return service.getUserProfile(userId);
+    @PostMapping("/account/profiles")
+    public Account addProfileToUser(@RequestBody Account account){
+        return service.addProfilesToUser(account.getUserId(), account.getProfiles());
     }
 }

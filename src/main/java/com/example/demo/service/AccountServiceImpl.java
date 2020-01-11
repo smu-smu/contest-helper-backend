@@ -44,5 +44,17 @@ public class AccountServiceImpl implements AccountService {
         return repository.findByProfilesContains(profile);
     }
 
+    @Override
+    public Account addTagsToUser(String userId, List<String> favorites) {
+        Account account = repository.findById(userId).get();
+        account.getFavorites().addAll(favorites);
+        return repository.save(account);
+    }
 
+    @Override
+    public Account addProfilesToUser(String userId, List<String> profiles) {
+        Account account = repository.findById(userId).get();
+        account.getProfiles().addAll(profiles);
+        return repository.save(account);
+    }
 }
