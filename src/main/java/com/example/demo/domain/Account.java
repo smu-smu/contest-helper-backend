@@ -15,9 +15,13 @@ public class Account {
     private String password;
     private String name;
 
+    private List<String> favorites = new ArrayList<>();
     private List<String> profiles = new ArrayList<>();
 
     public void addProfile(String profile){
         this.profiles.add(profile);
+    }
+    public void addFavorites(String favorite){
+        this.favorites.add(favorite);
     }
 }

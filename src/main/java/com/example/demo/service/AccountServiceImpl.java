@@ -12,7 +12,9 @@ public class AccountServiceImpl implements AccountService {
     AccountRepository repository;
 
     @Override
-    public Account getUserInfo(String id) {
-        return null;
+    public Account getUserInfo(String userId) {
+        return repository.findById(userId).get();
     }
+
+
 }

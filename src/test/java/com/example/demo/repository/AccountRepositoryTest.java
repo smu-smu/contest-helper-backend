@@ -30,6 +30,10 @@ public class AccountRepositoryTest {
 
         Optional<Account> byId = repository.findById(account.getUserId());
         System.out.println(byId.get());
+    }
+
+    @Test
+    public void addFavorite(){
 
     }
 

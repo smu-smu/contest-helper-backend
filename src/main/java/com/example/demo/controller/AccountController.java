@@ -12,7 +12,7 @@ public class AccountController {
     @Autowired
     AccountService service;
 
-    @GetMapping("/account")
+    @GetMapping("/account/signup")
     public Account test() {
         return null;
     }
