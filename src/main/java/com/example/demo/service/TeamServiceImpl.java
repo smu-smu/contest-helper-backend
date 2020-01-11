@@ -142,4 +142,9 @@ public class TeamServiceImpl implements TeamService {
 
         return avg;
     }
+
+    @Override
+    public Team remove(String name) {
+        return null;
+    }
 }

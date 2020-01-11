@@ -26,4 +26,5 @@ public interface TeamService {
 
     Double getTeamScore(String teamId);
 
+    Team remove(String name);
 }

@@ -42,6 +42,11 @@ public class TeamController {
         return service.getTeamsByContestId(contestId);
     }
 
+    @DeleteMapping("/team/{name}")
+    public Team remove(@PathVariable String name){
+        return service.remove(name);
+    }
+
 
     /** POST **/
 
