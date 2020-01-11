@@ -7,6 +7,7 @@ import com.example.demo.repository.AccountRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.swing.text.html.HTML;
 import java.util.List;
 
 @Service
@@ -74,6 +75,16 @@ public class AccountServiceImpl implements AccountService {
     public Account updateTagScores(TagScore newTags, String userId) {
         Account account = repository.findById(userId).get();
         List<TagScore> tagScores = account.getTagScores();
+
+        boolean tagExist = false;
+        for (TagScore tagScore : tagScores) {
+            if (tagScore.getTagName().equals(newTags.getTagName())) {
+                tagExist = true;
+                Double newScore = (tagScore.getScore() + newTags.getScore()) / 2;
+                tagScore.setScore(newScore);
+                break;
+            }
+        }
 
         checkTagScore(tagScores, newTags);
         return repository.save(account);
