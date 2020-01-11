@@ -60,23 +60,28 @@ public class AccountServiceImpl implements AccountService {
         return repository.save(account);
     }
 
-    public void checkTagScore(List<TagScore> tagScores, TagScore newTag) {
-        for (int i = 0; i < tagScores.size(); i++) {
-            if (tagScores.get(i).getTagName().equals(newTag.getTagName())) {
-                tagScores.get(i).setScore((tagScores.get(i).getScore() + newTag.getScore()) / 2);
-                return;
-            }
-        }
-        tagScores.add(newTag);
-    }
-
-    @Override
-    public Account updateTagScores(TagScore newTags, String userId) {
+//    public void checkTagScore(List<TagScore> tagScores, TagScore newTag) {
+//        for (int i = 0; i < tagScores.size(); i++) {
+//            if (tagScores.get(i).getTagName().equals(newTag.getTagName())) {
+////                tagScores.get(i).setScore((tagScores.get(i).getScore() + newTag.getScore()) / 2);
+//
+//                return;
+//            }
+//        }
+//        tagScores.add(newTag);
+//    }
+//
+//    @Override
+//    public Account updateTagScores(TagScore newTags, String userId) {
+//        Account account = repository.findById(userId).get();
+//        List<TagScore> tagScores = account.getTagScores();
+//
+//        checkTagScore(tagScores, newTags);
+//        return repository.save(account);
+//    }
+    public Account newTagScore(TagScore newTags, String userId){
         Account account = repository.findById(userId).get();
-        List<TagScore> tagScores = account.getTagScores();
-
-        checkTagScore(tagScores, newTags);
-        return repository.save(account);
+        account.getTagScores().add(newTags);
     }
 
     @Override
@@ -94,4 +99,6 @@ public class AccountServiceImpl implements AccountService {
         }
         return repository.save(account);
     }
+
+
 }
