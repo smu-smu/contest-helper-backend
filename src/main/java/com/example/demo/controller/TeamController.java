@@ -35,7 +35,7 @@ public class TeamController {
         return service.getParticipants(teamId);
     }
 
-    @GetMapping("/team/contestid/{contestId}")
+    @GetMapping("/team/contestId/{contestId}")
     public List<Team> getTeamsByContestId(@PathVariable String contestId) {
         return service.getTeamsByContestId(contestId);
     }

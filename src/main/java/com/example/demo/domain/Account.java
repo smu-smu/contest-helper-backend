@@ -18,7 +18,6 @@ public class Account {
     private String password;
     private String name;
 
-
     private List<String> favorites = new ArrayList<>();
     private List<String> profiles = new ArrayList<>();
 

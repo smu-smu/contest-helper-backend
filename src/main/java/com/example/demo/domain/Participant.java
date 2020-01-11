@@ -11,6 +11,7 @@ import javax.validation.constraints.NotNull;
 public class Participant {
     @Id @NotNull
     private String accountId;
+    @NotNull
     private String teamId;
     private String status="waiting";
 }

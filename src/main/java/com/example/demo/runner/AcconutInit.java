@@ -14,6 +14,6 @@ public class AcconutInit implements ApplicationRunner {
 
     @Override
     public void run(ApplicationArguments args) throws Exception {
-        repository.deleteAll();
+//        repository.deleteAll();
     }
 }
