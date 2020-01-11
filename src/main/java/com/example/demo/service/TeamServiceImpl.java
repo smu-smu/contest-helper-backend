@@ -1,10 +1,8 @@
 package com.example.demo.service;
 
-import com.example.demo.domain.Account;
-import com.example.demo.domain.Message;
-import com.example.demo.domain.Participant;
-import com.example.demo.domain.Team;
+import com.example.demo.domain.*;
 import com.example.demo.repository.AccountRepository;
+import com.example.demo.repository.CompetitionRepository;
 import com.example.demo.repository.TeamRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -20,6 +18,9 @@ public class TeamServiceImpl implements TeamService {
 
     @Autowired
     TeamRepository repository;
+
+    @Autowired
+    CompetitionRepository competitionRepository;
 
     @Override
     public Team createTeam(Team team) {
@@ -110,15 +111,30 @@ public class TeamServiceImpl implements TeamService {
     }
 
     @Override
-    public Double getTeamScore(Team team){
+    public Double getTeamScore(Team team) {
         List<Account> members = new ArrayList<>();
         List<String> membersIds = team.getMembers();
         for (String id : membersIds) {
             members.add(accountRepository.findById(id).get());
         }
+        List<String> tags = competitionRepository.findById(team.getContestId()).get().getCategory();
+
+        int plusCount = 0;
         double sum = 0;
+        
+        for (String tag : tags) {
+            for (Account account : members) {
+                for (TagScore tagScore : account.getTagScores()) {
+                    if (tagScore.getTagName().equals(tag)) {
+                        sum += tagScore.getScore();
+                        ++plusCount;
+                        break;
+                    }
+                }
+            }
+        }
+        double avg = sum / plusCount;
 
-
-        return null;
+        return avg;
     }
 }
