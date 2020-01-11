@@ -23,7 +23,7 @@ public interface AccountService {
 
     Account addProfilesToUser(String userId, List<String> profiles);
 
-    Account updateTagScores(TagScore tagScore, String userId);
+    Account newTagScore(TagScore tagScore, String userId);
 
     Account sendMessage(Message message, String userId);
 

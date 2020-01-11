@@ -62,13 +62,38 @@ public class AccountServiceImpl implements AccountService {
     }
 
 
-    public Account newTagScore(TagScore newTags, String userId){
+    public Account newTagScore(TagScore newTags, String userId) {
         Account account = repository.findById(userId).get();
 
         account.getTagScores().add(newTags);
 
         List<TagScore> tagScores = account.getTagScores();
+        List<TagScore> avgScores = account.getAvgTagScores();
 
+        boolean contains = false;
+        for (TagScore tag : avgScores) {
+            if (tag.getTagName().equals(newTags.getTagName())) {
+                contains = true;
+                break;
+            }
+        }
+        if (contains) {
+            double sum = 0;
+            int tagCount = 0;
+            for (TagScore tagScore : tagScores) {
+                if (tagScore.getTagName().equals(newTags.getTagName())) {
+                    sum += tagScore.getScore();
+                    ++tagCount;
+                }
+            }
+            for (TagScore avgScore : avgScores) {
+                if (avgScore.getTagName().equals(newTags.getTagName())) {
+                    avgScore.setScore(sum / tagCount);
+                }
+            }
+        } else {
+            avgScores.add(newTags);
+        }
         return repository.save(account);
     }
 
