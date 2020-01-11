@@ -14,6 +14,7 @@ public class Team {
     @Id
     @NotNull
     private String name;
+    private String contestId;
     private String comment;
     private String address;
 

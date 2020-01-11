@@ -12,6 +12,4 @@ import org.springframework.data.mongodb.core.mapping.Document;
 public class Message {
     private String title;
     private String content;
-
-
 }

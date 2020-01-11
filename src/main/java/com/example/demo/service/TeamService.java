@@ -19,4 +19,6 @@ public interface TeamService {
     Team reject(Participant participant);
 
     Team permit(Participant participant);
+
+    Team updateComment(Team team);
 }

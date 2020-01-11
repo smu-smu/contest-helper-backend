@@ -59,6 +59,7 @@ public class TeamServiceImpl implements TeamService {
     public Integer getParticipantIndex(List<Participant> participants, String accountId) {
         int index = -1;
         for (Participant participant : participants) {
+            index++;
             if (participant.getAccountId().equals(accountId)) {
                 return index;
             }
@@ -70,7 +71,7 @@ public class TeamServiceImpl implements TeamService {
     public Team reject(Participant participant) {
         Team team = repository.findById(participant.getTeamId()).get();
         List<Participant> participants = team.getParticipants();
-        Integer index = getParticipantIndex(participants, participant.getAccountId());
+        int index = getParticipantIndex(participants, participant.getAccountId());
         participants.remove(index);
 
         // user 알람
@@ -83,11 +84,13 @@ public class TeamServiceImpl implements TeamService {
 
     @Override
     public Team permit(Participant participant) {
-
         Team team = repository.findById(participant.getTeamId()).get();
         List<Participant> participants = team.getParticipants();
-        Integer index = getParticipantIndex(participants, participant.getAccountId());
+        System.out.println(participants);
+        int index = getParticipantIndex(participants, participant.getAccountId());
         participants.remove(index);
+
+        System.out.println(participants);
         team.getMembers().add(participant.getAccountId());
 
         // user 알람
@@ -98,4 +101,10 @@ public class TeamServiceImpl implements TeamService {
         return repository.save(team);
     }
 
+    @Override
+    public Team updateComment(Team team) {
+        Team team1 = repository.findById(team.getName()).get();
+        team1.setComment(team.getComment());
+        return repository.save(team1);
+    }
 }

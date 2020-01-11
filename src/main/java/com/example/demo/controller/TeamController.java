@@ -35,9 +35,7 @@ public class TeamController {
     }
 
 
-    /** POST
-     * @return**/
-
+    /** POST **/
 
     @PostMapping("/team/request")
     public Team request(@RequestBody Participant participant) {
@@ -54,6 +52,11 @@ public class TeamController {
     public Team rejectSingUp(@RequestBody Participant participant){
         System.out.println(participant.getTeamId() + "permits" + participant.getAccountId());
         return service.reject(participant);
+    }
+
+    @PostMapping("/team/comment")
+    public Team updateComment(@RequestBody Team team){
+        return service.updateComment(team);
     }
 
 
