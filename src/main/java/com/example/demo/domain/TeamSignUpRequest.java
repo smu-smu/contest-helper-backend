@@ -9,5 +9,4 @@ public class TeamSignUpRequest {
     private String accountId;
     private String teamId;
     private String status;
-
 }
