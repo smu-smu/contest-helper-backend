@@ -23,11 +23,13 @@ public interface AccountService {
 
     Account addProfilesToUser(String userId, List<String> profiles);
 
-    Account updateTagScores(TagScore tagScore, String userId);
+    Account newTagScore(TagScore tagScore, String userId);
 
     Account sendMessage(Message message, String userId);
 
     Account deleteMessage(String userId, Integer messageId);
 
     Account signin(Account account);
+
+    List<String> getTeamsById(String userId);
 }

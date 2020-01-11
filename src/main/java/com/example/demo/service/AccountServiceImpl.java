@@ -7,6 +7,7 @@ import com.example.demo.repository.AccountRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.swing.text.html.HTML;
 import java.util.List;
 
 @Service
@@ -60,22 +61,39 @@ public class AccountServiceImpl implements AccountService {
         return repository.save(account);
     }
 
-    public void checkTagScore(List<TagScore> tagScores, TagScore newTag) {
-        for (int i = 0; i < tagScores.size(); i++) {
-            if (tagScores.get(i).getTagName().equals(newTag.getTagName())) {
-                tagScores.get(i).setScore((tagScores.get(i).getScore() + newTag.getScore()) / 2);
-                return;
+
+    public Account newTagScore(TagScore newTags, String userId) {
+        Account account = repository.findById(userId).get();
+
+        account.getTagScores().add(newTags);
+
+        List<TagScore> tagScores = account.getTagScores();
+        List<TagScore> avgScores = account.getAvgTagScores();
+
+        boolean contains = false;
+        for (TagScore tag : avgScores) {
+            if (tag.getTagName().equals(newTags.getTagName())) {
+                contains = true;
+                break;
             }
         }
-        tagScores.add(newTag);
-    }
-
-    @Override
-    public Account updateTagScores(TagScore newTags, String userId) {
-        Account account = repository.findById(userId).get();
-        List<TagScore> tagScores = account.getTagScores();
-
-        checkTagScore(tagScores, newTags);
+        if (contains) {
+            double sum = 0;
+            int tagCount = 0;
+            for (TagScore tagScore : tagScores) {
+                if (tagScore.getTagName().equals(newTags.getTagName())) {
+                    sum += tagScore.getScore();
+                    ++tagCount;
+                }
+            }
+            for (TagScore avgScore : avgScores) {
+                if (avgScore.getTagName().equals(newTags.getTagName())) {
+                    avgScore.setScore(sum / tagCount);
+                }
+            }
+        } else {
+            avgScores.add(newTags);
+        }
         return repository.save(account);
     }
 
@@ -99,4 +117,10 @@ public class AccountServiceImpl implements AccountService {
     public Account signin(Account account) {
         return repository.findByUserIdAndAndPassword(account.getUserId(), account.getPassword()).orElseGet(() -> new Account());
     }
+
+    public List<String> getTeamsById(String userId) {
+        return repository.findById(userId).get().getMyTeams();
+    }
+
+
 }

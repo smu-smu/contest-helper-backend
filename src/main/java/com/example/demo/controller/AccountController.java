@@ -76,7 +76,7 @@ public class AccountController {
 
     @PostMapping("/account/tagscore/{userId}")
     public Account updateTagScore(@RequestBody TagScore tagScore, @PathVariable String userId){
-        return service.updateTagScores(tagScore,userId);
+        return service.newTagScore(tagScore,userId);
     }
 
     @PostMapping("/account/message/{userId}")
@@ -87,5 +87,10 @@ public class AccountController {
     @DeleteMapping("/account/message/{userId}/{messageId}")
     public Account deleteMessageToUser(@PathVariable String userId, @PathVariable Integer messageId){
         return service.deleteMessage(userId,messageId);
+    }
+
+    @PostMapping("/account/team/{userId}")
+    public List<String> getTeamsById(@PathVariable String userId){
+        return service.getTeamsById(userId);
     }
 }

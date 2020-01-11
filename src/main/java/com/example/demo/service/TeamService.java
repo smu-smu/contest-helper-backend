@@ -23,4 +23,7 @@ public interface TeamService {
     Team updateComment(Team team);
 
     List<Team> getTeamsByContestId(String contestId);
+
+    Double getTeamScore(String teamId);
+
 }
