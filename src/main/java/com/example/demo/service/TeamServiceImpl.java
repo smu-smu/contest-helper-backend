@@ -9,6 +9,7 @@ import com.example.demo.repository.TeamRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -106,5 +107,18 @@ public class TeamServiceImpl implements TeamService {
         Team team1 = repository.findById(team.getName()).get();
         team1.setComment(team.getComment());
         return repository.save(team1);
+    }
+
+    @Override
+    public Double getTeamScore(Team team){
+        List<Account> members = new ArrayList<>();
+        List<String> membersIds = team.getMembers();
+        for (String id : membersIds) {
+            members.add(accountRepository.findById(id).get());
+        }
+        double sum = 0;
+
+
+        return null;
     }
 }
