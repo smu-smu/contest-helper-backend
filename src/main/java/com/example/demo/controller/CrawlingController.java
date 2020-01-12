@@ -2,7 +2,7 @@ package com.example.demo.controller;
 
 import com.example.demo.aspect.PerfLogging;
 import com.example.demo.domain.Competition;
-import com.example.demo.service.CompetitionServiceImpl;
+import com.example.demo.service.CompetitionService;
 import com.example.demo.service.JsoupService;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +20,7 @@ public class CrawlingController {
   JsoupService jsoupService;
 
   @Autowired
-  CompetitionServiceImpl competitionService;
+  CompetitionService competitionService;
 
   @GetMapping("/contest/deleteAll")
   public void contest_deleteAll() {

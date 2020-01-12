@@ -1,8 +1,6 @@
 package com.example.demo.controller;
 
-import com.example.demo.domain.Account;
-import com.example.demo.domain.Message;
-import com.example.demo.domain.TagScore;
+import com.example.demo.domain.*;
 import com.example.demo.service.AccountService;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -63,6 +61,15 @@ public class AccountController {
   /**
    * POST
    **/
+  @GetMapping("/account/estimate/list/{userId}")
+  public List<Estimate> getEstimateListByUserId(@PathVariable String userId) {
+    return service.getEstiListByAccountId(userId);
+  }
+
+
+  /**
+   * POST
+   **/
   @PostMapping("/account/signin")
   public Account signin(@RequestBody Account account) {
     return service.signin(account);
@@ -82,6 +89,16 @@ public class AccountController {
   @PostMapping("/account/profiles")
   public Account addProfileToUser(@RequestBody Account account) {
     return service.addProfilesToUser(account.getUserId(), account.getProfiles());
+  }
+
+  @PostMapping("/account/estimate/members/")
+  public List<Account> getAppraiseeByEstimate(@RequestBody Estimate estimate) {
+    return service.getAppraiseeByEstimate(estimate);
+  }
+
+  @PostMapping("/account/estimate/team")
+  public Account estimateTeam(@RequestBody Estimate estimate) {
+    return service.estimateTeam(estimate);
   }
 
   @PostMapping("/account/tagscore/{userId}")

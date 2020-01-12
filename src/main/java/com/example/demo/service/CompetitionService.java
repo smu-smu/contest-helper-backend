@@ -1,16 +1,44 @@
 package com.example.demo.service;
 
 import com.example.demo.domain.Competition;
+import com.example.demo.repository.CompetitionRepository;
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
-public interface CompetitionService {
+@Service
+public class CompetitionService {
 
-  void save(String name, ArrayList<String> category, String group, String start, String end)
-      throws ParseException;
+  @Autowired
+  CompetitionRepository competitionRepository;
 
-  List<Competition> findAll();
+  public void save(String name, ArrayList<String> category, String group, String start, String end)
+      throws ParseException {
+    Competition comp = new Competition();
+    comp.setName(name);
+    comp.setCategory(category);
+    comp.setGroup(group);
+    SimpleDateFormat dateForm = new SimpleDateFormat("yyyy.MM.dd");
+    Date startDate = dateForm.parse(start);
+    Date endDate;
+    endDate = dateForm.parse(end);
+    comp.setStartDate(start);
+    comp.setEndDate(end);
 
-  void deleteAll();
+    comp.setId(name + group + start);
+
+    competitionRepository.save(comp);
+  }
+
+  public List<Competition> findAll() {
+    return (List<Competition>) competitionRepository.findAll();
+  }
+
+  public void deleteAll() {
+    competitionRepository.deleteAll();
+  }
 }

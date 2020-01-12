@@ -2,7 +2,7 @@ package com.example.demo.runner;
 
 import com.example.demo.aspect.PerfLogging;
 import com.example.demo.repository.AccountRepository;
-import com.example.demo.service.CompetitionServiceImpl;
+import com.example.demo.service.CompetitionService;
 import com.example.demo.service.JsoupService;
 import java.util.ArrayList;
 import org.jsoup.nodes.Document;
@@ -24,7 +24,7 @@ public class AcconutInit implements ApplicationRunner {
   JsoupService jsoupService;
 
   @Autowired
-  CompetitionServiceImpl competitionService;
+  CompetitionService competitionService;
 
   @PerfLogging
   @Override

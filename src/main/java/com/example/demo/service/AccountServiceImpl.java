@@ -1,12 +1,16 @@
 package com.example.demo.service;
 
 import com.example.demo.domain.Account;
+import com.example.demo.domain.Competition;
+import com.example.demo.domain.Estimate;
 import com.example.demo.domain.Message;
 import com.example.demo.domain.TagScore;
+import com.example.demo.domain.Team;
 import com.example.demo.repository.AccountRepository;
 import com.example.demo.repository.CompetitionRepository;
 import com.example.demo.repository.EstimateRepository;
 import com.example.demo.repository.TeamRepository;
+import java.util.ArrayList;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -69,6 +73,49 @@ public class AccountServiceImpl implements AccountService {
   }
 
   @Override
+
+  public List<Estimate> getEstiListByAccountId(String userId) {
+    return estimateRepository.findByAccountId(userId);
+  }
+
+  @Override
+  public List<Account> getAppraiseeByEstimate(Estimate estimate) {
+    List<Account> accounts = new ArrayList<>();
+    Team tempTeam = teamRepository.findById(estimate.getTeamId()).get();
+    for (String accountId : tempTeam.getMembers()) {
+      if (accountId != estimate.getAccountId()) {
+        accounts.add(repository.findById(accountId).get());
+      }
+    }
+    return accounts;
+  }
+
+  @Override
+  public Account estimateTeam(Estimate estimate) {
+    Team tempTeam = teamRepository.findById(estimate.getTeamId()).get();
+    Competition tempComp = competitionRepository.findById(tempTeam.getContestId()).get();
+    for (String accountId : tempTeam.getMembers()) {
+      Account account = repository.findById(accountId).get();
+      int memberIndex = 0;
+      if (!account.getUserId().equals(estimate.getAccountId())) {
+        for (String category : tempComp.getCategory()) {
+          TagScore tagScore = new TagScore();
+          tagScore.setTagName(category);
+          tagScore.setScore(estimate.getScores().get(memberIndex));
+          newTagScore(tagScore, accountId);
+        }
+        ++memberIndex;
+      }
+    }
+    if (estimateRepository.findByTeamId(estimate.getTeamId()).isEmpty()) {
+      tempTeam.setState("Terminated");
+      teamRepository.save(tempTeam);
+    }
+    estimateRepository.delete(estimate);
+    return repository.findById(estimate.getAccountId()).get();
+  }
+
+  @Override
   public Account newTagScore(TagScore newTags, String userId) {
     Account account = repository.findById(userId).get();
 
@@ -98,6 +145,7 @@ public class AccountServiceImpl implements AccountService {
           avgScore.setScore(sum / tagCount);
         }
       }
+
     } else {
       avgScores.add(newTags);
     }
@@ -134,6 +182,4 @@ public class AccountServiceImpl implements AccountService {
   public List<Message> getUserMessages(String userId) {
     return repository.findById(userId).get().getMessages();
   }
-
-
 }

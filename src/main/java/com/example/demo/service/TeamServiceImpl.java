@@ -30,7 +30,6 @@ public class TeamServiceImpl implements TeamService {
   @Autowired
   EstimateRepository estimateRepository;
 
-
   @Override
   public Team createTeam(Team team) {
     team.getMembers().add(team.getCreatedUser());
