@@ -2,9 +2,7 @@ package com.example.demo.runner;
 
 import com.example.demo.aspect.PerfLogging;
 import com.example.demo.domain.Competition;
-import com.example.demo.repository.AccountRepository;
 import com.example.demo.repository.CompetitionRepository;
-import com.example.demo.service.CompetitionService;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -17,10 +15,12 @@ import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.stereotype.Component;
 
-//@Component
-public class AcconutInit implements ApplicationRunner {
+
+@Component
+public class ContestInit implements ApplicationRunner {
 
   private final static String URL = "https://www.thinkcontest.com/";
+
   @Autowired
   CompetitionRepository repository;
 
@@ -31,6 +31,7 @@ public class AcconutInit implements ApplicationRunner {
     Elements contest = doc.select(".all-contest");
     Elements tbody = contest.select("tbody");
 
+    int index = 1;
     for (Element tr : tbody.select("tr")) {
       Elements tds = tr.select("td");
       String contestName = tds.get(0).selectFirst(".contest-title").text();
@@ -46,9 +47,9 @@ public class AcconutInit implements ApplicationRunner {
       SimpleDateFormat transFormat = new SimpleDateFormat("yyyy.MM.dd");
       Date startDate = transFormat.parse(contestDates.substring(0, 10));
       Date endDate = transFormat.parse(contestDates.substring(13, 23));
-      long count = repository.count();
-//      repository.save(new Competition(count,contestName, category, contestGroup, startDate, endDate));
-
+      repository
+          .save(new Competition(String.valueOf(index++), contestName, category, contestGroup,
+              startDate, endDate));
     }
   }
 }

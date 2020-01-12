@@ -1,11 +1,11 @@
 package com.example.demo.controller;
 
 import com.example.demo.aspect.PerfLogging;
-import com.example.demo.domain.Account;
 import com.example.demo.domain.Participant;
 import com.example.demo.domain.Team;
 import com.example.demo.service.TeamService;
 import java.util.List;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @CrossOrigin("*")
 @RestController
+@Slf4j
 public class TeamController {
 
   @Autowired
@@ -36,6 +37,7 @@ public class TeamController {
 
   /**
    * team 가입 신청한 참가자들 목록을 조회
+   *
    * @param teamId 가입신청 참가자들의 목록을 조회할 team id
    * @return 가입 신청 참가자 목록
    */
@@ -78,15 +80,14 @@ public class TeamController {
   }
 
   /**
-   * team 가입 신청 승낙
-   * 승낙 후 해당 user에게 message 전송
+   * team 가입 신청 승낙 승낙 후 해당 user에게 message 전송
    *
    * @param participant 가입신청을 승낙할 참가자의 정보
    * @return 신청 승낙 완료된 team 객체 return
    */
   @PostMapping("/team/permit")
   public Team permitSignUp(@RequestBody Participant participant) {
-    System.out.println(participant.getTeamId() + "permits" + participant.getAccountId());
+    log.info(participant.getTeamId() + " permit " + participant.getAccountId());
     return service.permit(participant);
   }
 
@@ -98,7 +99,7 @@ public class TeamController {
    */
   @PostMapping("/team/reject")
   public Team rejectSingUp(@RequestBody Participant participant) {
-    System.out.println(participant.getTeamId() + "permits" + participant.getAccountId());
+    log.info(participant.getTeamId() + " reject " + participant.getAccountId());
     return service.reject(participant);
   }
 
@@ -120,7 +121,7 @@ public class TeamController {
    * @return 성공시 "success", 실패시 "fail"
    */
   @DeleteMapping("/team/{teamId}")
-  public String deleteTeam(@PathVariable String teamId){
+  public String deleteTeam(@PathVariable String teamId) {
     return service.deleteTeam(teamId);
   }
 

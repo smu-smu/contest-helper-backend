@@ -5,7 +5,8 @@ import java.util.List;
 import org.springframework.data.repository.CrudRepository;
 
 public interface EstimateRepository extends CrudRepository<Estimate, String> {
-  List<Estimate> findByTeamId(String teamId);
-
-  List<Estimate> findByAccountId(String userId);
+  void deleteEstimateByAccountIdAndPersonIdAndTeamIdAndContestId(String accountId,
+      String personId,
+      String teamId,
+      String contestId);
 }

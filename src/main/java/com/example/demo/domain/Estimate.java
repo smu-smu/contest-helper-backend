@@ -9,11 +9,11 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @Document
 public class Estimate {
 
-  public Estimate(String teamId, String accountId, String tag, String personId) {
+  public Estimate(String teamId, String accountId, String personId, String contestId) {
     this.accountId = accountId;
     this.teamId = teamId;
-    this.tag = tag;
     this.personId = personId;
+    this.contestId = contestId;
   }
 
   @NotNull
@@ -23,7 +23,7 @@ public class Estimate {
   @NotNull
   private String teamId;
   @NotNull
-  private String tag;
+  private String contestId;
   @Min(0)
   private Double score;
 }

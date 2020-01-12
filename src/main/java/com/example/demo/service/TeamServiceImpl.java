@@ -74,13 +74,15 @@ public class TeamServiceImpl implements TeamService {
 
   public Integer getParticipantIndex(List<Participant> participants, String accountId) {
     int index = -1;
+    boolean check = false;
     for (Participant participant : participants) {
       index++;
       if (participant.getAccountId().equals(accountId)) {
-        return index;
+        check = true;
+        break;
       }
     }
-    return index;
+    return check ? index : -1;
   }
 
   @Override
@@ -90,14 +92,17 @@ public class TeamServiceImpl implements TeamService {
       Team team = teamTmp.get();
       List<Participant> participants = team.getParticipants();
       int index = getParticipantIndex(participants, participant.getAccountId());
-      participants.remove(index);
-
-      // user 알람
-      Account account = accountRepository.findById(participant.getAccountId()).get();
-      account.getMessages().add(new Message("reject", participant.getTeamId() + " reject you"));
-      accountRepository.save(account);
-
-      return repository.save(team);
+      if (index >= 0) {
+        participants.remove(index);
+        // user 알람
+        Account account = accountRepository.findById(participant.getAccountId()).get();
+        int messageCnt = account.getMessages().size();
+        account.getMessages().add(new Message(String.valueOf(messageCnt++),"reject", participant.getTeamId() + " reject you"));
+        accountRepository.save(account);
+        return repository.save(team);
+      } else {
+        return team;
+      }
     } else {
       return new Team();
     }
@@ -115,7 +120,8 @@ public class TeamServiceImpl implements TeamService {
 
       // user 알람
       Account account = accountRepository.findById(participant.getAccountId()).get();
-      account.getMessages().add(new Message("permit", participant.getTeamId() + " permit you"));
+      int messageCnt = account.getMessages().size();
+      account.getMessages().add(new Message(String.valueOf(messageCnt++),"permit", participant.getTeamId() + " permit you"));
       account.getTeam().add(team.getName());
       accountRepository.save(account);
       return repository.save(team);
@@ -150,23 +156,19 @@ public class TeamServiceImpl implements TeamService {
       System.out.println(team.getContestId());
       Optional<Competition> byId1 = competitionRepository.findById(team.getContestId());
       if (byId1.isPresent()) {
-        List<String> category = byId1.get().getCategory();
-        System.out.println(category + "!!");
-        category.forEach(c -> {
-          // 평가 collection에 user 목록 추가
-          List<String> members = team.getMembers();
-          members.forEach(member -> {
-            Optional<Account> byId2 = accountRepository.findById(member);
-            if (byId2.isPresent()) {
-              Account account = byId2.get();
-              account.getTeam().remove(teamId);
-              accountRepository.save(account);
+        // 평가 collection에 user 목록 추가
+        List<String> members = team.getMembers();
+        members.forEach(member -> {
+          Optional<Account> byId2 = accountRepository.findById(member);
+          if (byId2.isPresent()) {
+            Account account = byId2.get();
+            account.getTeam().remove(teamId);
+            accountRepository.save(account);
+          }
+          members.forEach(m -> {
+            if (!m.equals(member)) {
+              estimateRepository.save(new Estimate(team.getName(), member, m, team.getContestId()));
             }
-            members.forEach(m -> {
-              if (!m.equals(member)) {
-                estimateRepository.save(new Estimate(team.getName(), member, c, m));
-              }
-            });
           });
         });
         repository.delete(team);

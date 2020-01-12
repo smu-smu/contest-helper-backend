@@ -1,10 +1,13 @@
 package com.example.demo.service;
 
 import com.example.demo.domain.Account;
+import com.example.demo.domain.Competition;
 import com.example.demo.domain.Estimate;
 import com.example.demo.domain.TagScore;
 import com.example.demo.repository.AccountRepository;
+import com.example.demo.repository.CompetitionRepository;
 import com.example.demo.repository.EstimateRepository;
+import java.util.List;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -21,17 +24,30 @@ public class EstimateServiceImpl implements EstimateService {
   @Autowired
   AccountService accountService;
 
+  @Autowired
+  CompetitionRepository competitionRepository;
+
   @Override
   public String delete(Estimate info) {
-    repository.delete(info);
-    Optional<Account> byId = accountRepository.findById(info.getAccountId());
-    if (byId.isPresent()) {
-      Account account = accountService
-          .addTagScore(info.getAccountId(), new TagScore(info.getTag(), info.getScore()));
-      accountRepository.save(account);
-      return "success";
+    repository.deleteEstimateByAccountIdAndPersonIdAndTeamIdAndContestId(
+        info.getAccountId(), info.getPersonId(), info.getTeamId(), info.getContestId());
+    Optional<Competition> competitionTmp = competitionRepository.findById(info.getContestId());
+    Optional<Account> accountTmp = accountRepository.findById(info.getPersonId());
+    if (competitionTmp.isPresent()) {
+      Competition competition = competitionTmp.get();
+      List<String> category = competition.getCategory();
+      if (accountTmp.isPresent()) {
+        Account account = accountTmp.get();
+        category.forEach(c -> account.getTagScores().add(new TagScore(c, info.getScore())));
+        accountRepository.save(account);
+        return "success";
+      } else {
+        return "fail";
+      }
     } else {
       return "fail";
     }
+
+
   }
 }
