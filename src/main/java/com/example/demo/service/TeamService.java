@@ -1,5 +1,6 @@
 package com.example.demo.service;
 
+import com.example.demo.domain.Account;
 import com.example.demo.domain.Participant;
 import com.example.demo.domain.Team;
 import java.util.List;
@@ -7,8 +8,6 @@ import java.util.List;
 public interface TeamService {
 
   Team createTeam(Team team);
-
-  Participant getParticipantById(String teamId, String id);
 
   List<Team> getTeams();
 
@@ -24,4 +23,5 @@ public interface TeamService {
 
   List<Team> getTeamsByContestId(String contestId);
 
+  String deleteTeam(String teamId);
 }

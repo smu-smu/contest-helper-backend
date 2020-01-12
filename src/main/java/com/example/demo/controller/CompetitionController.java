@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @CrossOrigin("*")
 @RestController
-public class CrawlingController {
+public class CompetitionController {
 
   private static String URL = "https://www.thinkcontest.com/";
 

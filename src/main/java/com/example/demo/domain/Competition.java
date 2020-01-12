@@ -20,13 +20,13 @@ public class Competition {
   private Date endDate;
 
 
-  public Competition(String name, List<String> category, String group, Date startDate,
-      Date endDate) {
-    this.id = name + group + startDate;
-    this.name = name;
-    this.category = category;
-    this.group = group;
-    this.startDate = startDate;
-    this.endDate = endDate;
-  }
+//  public Competition(Long count, String name, List<String> category, String group, Date startDate,
+//      Date endDate) {
+//    this.id= String.valueOf(count);
+//    this.name = name;
+//    this.category = category;
+//    this.group = group;
+//    this.startDate = startDate;
+//    this.endDate = endDate;
+//  }
 }

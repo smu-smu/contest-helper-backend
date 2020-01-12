@@ -17,7 +17,7 @@ import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.stereotype.Component;
 
-@Component
+//@Component
 public class AcconutInit implements ApplicationRunner {
 
   private final static String URL = "https://www.thinkcontest.com/";
@@ -46,7 +46,8 @@ public class AcconutInit implements ApplicationRunner {
       SimpleDateFormat transFormat = new SimpleDateFormat("yyyy.MM.dd");
       Date startDate = transFormat.parse(contestDates.substring(0, 10));
       Date endDate = transFormat.parse(contestDates.substring(13, 23));
-      repository.save(new Competition(contestName, category, contestGroup, startDate, endDate));
+      long count = repository.count();
+//      repository.save(new Competition(count,contestName, category, contestGroup, startDate, endDate));
 
     }
   }

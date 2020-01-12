@@ -37,7 +37,7 @@ public class AccountController {
    * 특정 id를 가진 사용자 정보 조회
    *
    * @param userId 특정 사용자 id
-   * @return 특정 사용자의 정보
+   * @return 특정 사용자의 정보+
    */
   // user id를 기준으로 특정 user 찾기
   @GetMapping("/account/{userId}")
@@ -212,7 +212,7 @@ public class AccountController {
    */
   @PostMapping("/account/tagScore/{userId}")
   public Account addTagScore(@PathVariable String userId, @RequestBody TagScore tagScore) {
-    return service.addTagService(userId, tagScore);
+    return service.addTagScore(userId, tagScore);
   }
 
   /**

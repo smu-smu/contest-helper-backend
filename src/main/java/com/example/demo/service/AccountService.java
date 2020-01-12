@@ -42,7 +42,7 @@ public interface AccountService {
 
   Account sendMessage(Account account);
 
-  Account addTagService(String userId, TagScore tagScore);
+  Account addTagScore(String userId, TagScore tagScore);
 
   String deleteUser(String userId);
 }

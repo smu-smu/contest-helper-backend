@@ -81,7 +81,7 @@ public class AccountServiceImpl implements AccountService {
   }
 
   @Override
-  public Account addTagService(String userId, TagScore tagScore) {
+  public Account addTagScore(String userId, TagScore tagScore) {
     Optional<Account> byId = repository.findById(userId);
     if (byId.isPresent()) {
       byId.get().getTagScores().add(tagScore);
