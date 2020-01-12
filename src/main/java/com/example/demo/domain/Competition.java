@@ -1,6 +1,7 @@
 package com.example.demo.domain;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import lombok.Data;
 import org.springframework.data.annotation.Id;
@@ -15,10 +16,17 @@ public class Competition {
   private String name;
   private List<String> category = new ArrayList<>();
   private String group;
-  private String startDate;
-  private String endDate;
+  private Date startDate;
+  private Date endDate;
 
-  public void addCategory(String category) {
-    this.category.add(category);
+
+  public Competition(String name, List<String> category, String group, Date startDate,
+      Date endDate) {
+    this.id = name + group + startDate;
+    this.name = name;
+    this.category = category;
+    this.group = group;
+    this.startDate = startDate;
+    this.endDate = endDate;
   }
 }

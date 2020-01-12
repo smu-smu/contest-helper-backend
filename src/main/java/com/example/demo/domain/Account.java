@@ -18,15 +18,12 @@ public class Account {
   private String password;
   private String name;
 
-  private List<String> favorites = new ArrayList<>();
+  private List<String> tags = new ArrayList<>();
   private List<String> profiles = new ArrayList<>();
+  private List<String> team = new ArrayList<>();
 
   @Field("tagScores")
   private List<TagScore> tagScores = new ArrayList<>();
-
-  private List<TagScore> avgTagScores = new ArrayList<>();
-
-  private List<String> myTeams = new ArrayList<>();
 
   @Field("messages")
   private List<Message> messages = new ArrayList<>();

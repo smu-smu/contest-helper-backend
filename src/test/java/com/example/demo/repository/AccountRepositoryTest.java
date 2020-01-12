@@ -42,20 +42,20 @@ public class AccountRepositoryTest {
     String tag = "aaa";
 
     Account account = new Account();
-    account.getFavorites().add("aaa");
+    account.getTags().add("aaa");
 
     repository.save(account);
 
     Account account2 = new Account();
-    account2.getFavorites().add("b");
+    account2.getTags().add("b");
 
     repository.save(account2);
 
     Account account3 = new Account();
-    account3.getFavorites().add("aaa");
+    account3.getTags().add("aaa");
     repository.save(account3);
 
-    List<Account> byFavoritesContains = repository.findByFavoritesContains(tag);
+    List<Account> byFavoritesContains = repository.findByTagsContains(tag);
     assertThat(byFavoritesContains.size()).isEqualTo(2);
   }
 
@@ -86,7 +86,7 @@ public class AccountRepositoryTest {
     Account account = new Account();
     account.setUserId("1");
     account.getProfiles().add("AI");
-    account.getFavorites().add("tag1");
+    account.getTags().add("tag1");
     repository.save(account);
 
     List<String> newTags = new ArrayList<>();
@@ -94,10 +94,10 @@ public class AccountRepositoryTest {
     newTags.add("new2");
 
     Account account1 = repository.findById(account.getUserId()).get();
-    account1.getFavorites().addAll(newTags);
+    account1.getTags().addAll(newTags);
     repository.save(account1);
 
-    assertThat(repository.findById(account1.getUserId()).get().getFavorites().size()).isEqualTo(3);
+    assertThat(repository.findById(account1.getUserId()).get().getTags().size()).isEqualTo(3);
   }
 
   @Test

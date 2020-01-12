@@ -1,9 +1,9 @@
 package com.example.demo.repository;
 
 import com.example.demo.domain.Page;
-import com.example.demo.service.JsoupService;
 import java.io.IOException;
 import java.util.Optional;
+import org.jsoup.Jsoup;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,15 +14,15 @@ import org.springframework.test.context.junit4.SpringRunner;
 @SpringBootTest
 public class PageRepositoryTest {
 
+  private final String URL = "https://www.thinkcontest.com/";
+
   @Autowired
   PageRepository repo;
 
-  @Autowired
-  JsoupService jsoup;
 
   @Test
   public void 페이지추가() throws IOException {
-    String doc = jsoup.getDocumentAsString("https://www.thinkcontest.com/");
+    String doc = Jsoup.connect(URL).get().toString();
     Page page = new Page();
     page.setText(doc);
     page.setId("now");

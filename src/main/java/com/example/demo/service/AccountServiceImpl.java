@@ -1,46 +1,47 @@
 package com.example.demo.service;
 
 import com.example.demo.domain.Account;
-import com.example.demo.domain.Competition;
-import com.example.demo.domain.Estimate;
 import com.example.demo.domain.Message;
 import com.example.demo.domain.TagScore;
-import com.example.demo.domain.Team;
 import com.example.demo.repository.AccountRepository;
-import com.example.demo.repository.CompetitionRepository;
-import com.example.demo.repository.EstimateRepository;
-import com.example.demo.repository.TeamRepository;
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.aggregation.Aggregation;
+import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.stereotype.Service;
 
+@Slf4j
 @Service
 public class AccountServiceImpl implements AccountService {
 
   @Autowired
-  AccountRepository repository;
-  @Autowired
-  EstimateRepository estimateRepository;
-  @Autowired
-  TeamRepository teamRepository;
-  @Autowired
-  CompetitionRepository competitionRepository;
+  MongoTemplate mongoTemplate;
 
+  @Autowired
+  AccountRepository repository;
 
   @Override
   public Account getUserInfo(String userId) {
-    return repository.findById(userId).orElseGet(() -> new Account());
+    return repository.findById(userId).orElseGet(Account::new);
   }
 
   @Override
   public Account signup(Account account) {
-    return repository.save(account);
+    if (repository.findById(account.getUserId()).isPresent()) {
+      log.info("해당 id 이미 존재");
+      return new Account();
+    } else {
+      log.info("가입 완료");
+      return repository.save(account);
+    }
   }
 
   @Override
   public List<Account> getUsersByTag(String tag) {
-    return repository.findByFavoritesContains(tag);
+    return repository.findByTagsContains(tag);
   }
 
   @Override
@@ -60,108 +61,49 @@ public class AccountServiceImpl implements AccountService {
 
   @Override
   public Account addTagsToUser(String userId, List<String> favorites) {
-    Account account = repository.findById(userId).get();
-    account.getFavorites().addAll(favorites);
+    Account account = repository.findById(userId).orElseGet(Account::new);
+    account.getTags().addAll(favorites);
     return repository.save(account);
   }
 
   @Override
   public Account addProfilesToUser(String userId, List<String> profiles) {
-    Account account = repository.findById(userId).get();
+    Account account = repository.findById(userId).orElseGet(Account::new);
     account.getProfiles().addAll(profiles);
     return repository.save(account);
   }
 
   @Override
-
-  public List<Estimate> getEstiListByAccountId(String userId) {
-    return estimateRepository.findByAccountId(userId);
+  public Account sendMessage(Account acc) {
+    Account account = repository.findById(acc.getUserId()).orElseGet(Account::new);
+    account.getMessages().addAll(acc.getMessages());
+    return repository.save(account);
   }
 
   @Override
-  public List<Account> getAppraiseeByEstimate(Estimate estimate) {
-    List<Account> accounts = new ArrayList<>();
-    Team tempTeam = teamRepository.findById(estimate.getTeamId()).get();
-    for (String accountId : tempTeam.getMembers()) {
-      if (accountId != estimate.getAccountId()) {
-        accounts.add(repository.findById(accountId).get());
-      }
-    }
-    return accounts;
-  }
-
-  @Override
-  public Account estimateTeam(Estimate estimate) {
-    Team tempTeam = teamRepository.findById(estimate.getTeamId()).get();
-    Competition tempComp = competitionRepository.findById(tempTeam.getContestId()).get();
-    for (String accountId : tempTeam.getMembers()) {
-      Account account = repository.findById(accountId).get();
-      int memberIndex = 0;
-      if (!account.getUserId().equals(estimate.getAccountId())) {
-        for (String category : tempComp.getCategory()) {
-          TagScore tagScore = new TagScore();
-          tagScore.setTagName(category);
-          tagScore.setScore(estimate.getScores().get(memberIndex));
-          newTagScore(tagScore, accountId);
-        }
-        ++memberIndex;
-      }
-    }
-    if (estimateRepository.findByTeamId(estimate.getTeamId()).isEmpty()) {
-      tempTeam.setState("Terminated");
-      teamRepository.save(tempTeam);
-    }
-    estimateRepository.delete(estimate);
-    return repository.findById(estimate.getAccountId()).get();
-  }
-
-  @Override
-  public Account newTagScore(TagScore newTags, String userId) {
-    Account account = repository.findById(userId).get();
-
-    account.getTagScores().add(newTags);
-
-    List<TagScore> tagScores = account.getTagScores();
-    List<TagScore> avgScores = account.getAvgTagScores();
-
-    boolean contains = false;
-    for (TagScore tag : avgScores) {
-      if (tag.getTagName().equals(newTags.getTagName())) {
-        contains = true;
-        break;
-      }
-    }
-    if (contains) {
-      double sum = 0;
-      int tagCount = 0;
-      for (TagScore tagScore : tagScores) {
-        if (tagScore.getTagName().equals(newTags.getTagName())) {
-          sum += tagScore.getScore();
-          ++tagCount;
-        }
-      }
-      for (TagScore avgScore : avgScores) {
-        if (avgScore.getTagName().equals(newTags.getTagName())) {
-          avgScore.setScore(sum / tagCount);
-        }
-      }
-
+  public Account addTagService(String userId, TagScore tagScore) {
+    Optional<Account> byId = repository.findById(userId);
+    if (byId.isPresent()) {
+      byId.get().getTagScores().add(tagScore);
+      return repository.save(byId.get());
     } else {
-      avgScores.add(newTags);
+      return new Account();
     }
-    return repository.save(account);
   }
 
   @Override
-  public Account sendMessage(Message message, String userId) {
-    Account account = repository.findById(userId).get();
-    account.getMessages().add(message);
-    return repository.save(account);
+  public String deleteUser(String userId) {
+    try {
+      repository.deleteById(userId);
+    } catch (Exception e) {
+      return "fail";
+    }
+    return "success";
   }
 
   @Override
   public Account deleteMessage(String userId, Integer messageId) {
-    Account account = repository.findById(userId).get();
+    Account account = repository.findById(userId).orElseGet(Account::new);
     if (!account.getMessages().isEmpty()) {
       account.getMessages().remove(messageId - 1);
     }
@@ -171,15 +113,61 @@ public class AccountServiceImpl implements AccountService {
   @Override
   public Account signin(Account account) {
     return repository.findByUserIdAndAndPassword(account.getUserId(), account.getPassword())
-        .orElseGet(() -> new Account());
+        .orElseGet(Account::new);
   }
 
   public List<String> getTeamsById(String userId) {
-    return repository.findById(userId).get().getMyTeams();
+    return repository.findById(userId).orElseGet(Account::new).getTeam();
   }
 
   @Override
   public List<Message> getUserMessages(String userId) {
-    return repository.findById(userId).get().getMessages();
+    return repository.findById(userId).orElseGet(Account::new).getMessages();
+  }
+
+  @Override
+  public List<String> getUserTags(String userId) {
+    Account account = repository.findById(userId).orElseGet(Account::new);
+    return account.getTags();
+  }
+
+  @Override
+  public List<String> getUserTeam(String userId) {
+    Account account = repository.findById(userId).orElseGet(Account::new);
+    return account.getTeam();
+  }
+
+  @Override
+  public List<TagScore> getUserTagScores(String userId) {
+    Aggregation agg = Aggregation.newAggregation(
+        Aggregation.match(Criteria.where("_id").is(userId)),
+        Aggregation.unwind("tagScores"),
+        Aggregation.group("tagScores._id")
+            .avg("tagScores.score").as("score")
+    );
+    List<TagScore> results = mongoTemplate
+        .aggregate(agg, Account.class, TagScore.class).getMappedResults();
+    results.forEach(System.out::println);
+
+    return results;
+  }
+
+  @Override
+  public Double getUserTagScore(String userId, String tagName) {
+    Aggregation agg = Aggregation.newAggregation(
+        Aggregation.match(Criteria.where("_id").is(userId)),
+        Aggregation.unwind("tagScores"),
+        Aggregation.group("tagScores._id")
+            .avg("tagScores.score").as("score")
+    );
+    List<TagScore> results = mongoTemplate
+        .aggregate(agg, Account.class, TagScore.class).getMappedResults();
+
+    for (TagScore tag : results) {
+      if (tag.get_id().equals(tagName)) {
+        return tag.getScore();
+      }
+    }
+    return -1.0;
   }
 }

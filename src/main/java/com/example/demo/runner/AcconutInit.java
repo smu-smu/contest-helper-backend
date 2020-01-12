@@ -1,10 +1,14 @@
 package com.example.demo.runner;
 
 import com.example.demo.aspect.PerfLogging;
+import com.example.demo.domain.Competition;
 import com.example.demo.repository.AccountRepository;
+import com.example.demo.repository.CompetitionRepository;
 import com.example.demo.service.CompetitionService;
-import com.example.demo.service.JsoupService;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
@@ -18,20 +22,15 @@ public class AcconutInit implements ApplicationRunner {
 
   private final static String URL = "https://www.thinkcontest.com/";
   @Autowired
-  AccountRepository repository;
-
-  @Autowired
-  JsoupService jsoupService;
-
-  @Autowired
-  CompetitionService competitionService;
+  CompetitionRepository repository;
 
   @PerfLogging
   @Override
   public void run(ApplicationArguments args) throws Exception {
-    Document doc = jsoupService.getDocument(URL);
+    Document doc = Jsoup.connect(URL).get();
     Elements contest = doc.select(".all-contest");
     Elements tbody = contest.select("tbody");
+
     for (Element tr : tbody.select("tr")) {
       Elements tds = tr.select("td");
       String contestName = tds.get(0).selectFirst(".contest-title").text();
@@ -43,12 +42,12 @@ public class AcconutInit implements ApplicationRunner {
       }
       String contestGroup = tds.get(1).text();
       String contestDates = tds.get(3).text();
-      String startDate = contestDates.substring(0, 10);
-      String endDate = contestDates.substring(13, 23);
 
-      competitionService.save(contestName, category, contestGroup, startDate, endDate);
+      SimpleDateFormat transFormat = new SimpleDateFormat("yyyy.MM.dd");
+      Date startDate = transFormat.parse(contestDates.substring(0, 10));
+      Date endDate = transFormat.parse(contestDates.substring(13, 23));
+      repository.save(new Competition(contestName, category, contestGroup, startDate, endDate));
 
     }
-//        repository.deleteAll();
   }
 }

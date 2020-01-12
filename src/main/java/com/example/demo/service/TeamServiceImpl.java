@@ -38,38 +38,6 @@ public class TeamServiceImpl implements TeamService {
   }
 
   @Override
-  public Team closeTeam(Team team) {
-    Team tempTeam = repository.findById(team.getName()).get();
-    if (!(tempTeam.getState().equals("Closed") || tempTeam.getState().equals("terminated"))) {
-      return null;
-    }
-    for (String memberId : tempTeam.getMembers()) {
-      Estimate estimate = new Estimate();
-      estimate.setAccountId(memberId);
-      estimate.setTeamId(tempTeam.getName());
-      estimateRepository.save(estimate);
-      Message message = new Message();
-      message.setTitle("평가를 해주세요!! - " + tempTeam.getName());
-      message.setContent(tempTeam.getName() + "팀의 활동이 종료되었습니다.");
-      Account tempAccount = accountRepository.findById(memberId).get();
-      tempAccount.getMessages().add(message);
-      accountRepository.save(tempAccount);
-    }
-    tempTeam.setState("Closed");
-    return repository.save(tempTeam);
-  }
-
-  @Override
-  public Team terminateTeam(Team team) {
-    Team tempTeam = repository.findById(team.getName()).get();
-    if (!estimateRepository.findByTeamId(tempTeam.getName()).isEmpty()) {
-      return null;
-    }
-    team.setState("Terminated");
-    return repository.save(tempTeam);
-  }
-
-  @Override
   public Participant getParticipantById(String teamId, String id) {
     Team team = repository.findById(teamId).get();
     List<Participant> participants = team.getParticipants();
@@ -156,31 +124,4 @@ public class TeamServiceImpl implements TeamService {
     return repository.findByContestId(contestId);
   }
 
-  public Double getTeamScore(String teamId) {
-    Team team = repository.findById(teamId).get();
-    List<Account> members = new ArrayList<>();
-    List<String> membersIds = team.getMembers();
-    for (String id : membersIds) {
-      members.add(accountRepository.findById(id).get());
-    }
-    List<String> tags = competitionRepository.findById(team.getContestId()).get().getCategory();
-
-    int plusCount = 0;
-    double sum = 0;
-
-    for (String tag : tags) {
-      for (Account account : members) {
-        for (TagScore tagScore : account.getAvgTagScores()) {
-          if (tagScore.getTagName().equals(tag)) {
-            sum += tagScore.getScore();
-            ++plusCount;
-            break;
-          }
-        }
-      }
-    }
-    double avg = sum / plusCount;
-
-    return avg;
-  }
 }

@@ -8,10 +8,6 @@ public interface TeamService {
 
   Team createTeam(Team team);
 
-  Team closeTeam(Team team);
-
-  Team terminateTeam(Team team);
-
   Participant getParticipantById(String teamId, String id);
 
   List<Team> getTeams();
@@ -28,5 +24,4 @@ public interface TeamService {
 
   List<Team> getTeamsByContestId(String contestId);
 
-  Double getTeamScore(String teamId);
 }

@@ -24,22 +24,25 @@ public interface AccountService {
 
   Account addProfilesToUser(String userId, List<String> profiles);
 
-  List<Estimate> getEstiListByAccountId(String userId);
-
-  Account newTagScore(TagScore tagScore, String userId);
-
-  List<Account> getAppraiseeByEstimate(Estimate estimate);
-
-  Account estimateTeam(Estimate estimate);
-
-  Account sendMessage(Message message, String userId);
-
   Account deleteMessage(String userId, Integer messageId);
 
   Account signin(Account account);
 
-
   List<String> getTeamsById(String userId);
 
   List<Message> getUserMessages(String userId);
+
+  List<String> getUserTags(String userId);
+
+  List<String> getUserTeam(String userId);
+
+  List<TagScore> getUserTagScores(String userId);
+
+  Double getUserTagScore(String userId, String tag);
+
+  Account sendMessage(Account account);
+
+  Account addTagService(String userId, TagScore tagScore);
+
+  String deleteUser(String userId);
 }
