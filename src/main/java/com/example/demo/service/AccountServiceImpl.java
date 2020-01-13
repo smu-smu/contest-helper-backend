@@ -8,17 +8,11 @@ import java.util.List;
 import java.util.Optional;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.mongodb.core.MongoTemplate;
-import org.springframework.data.mongodb.core.aggregation.Aggregation;
-import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.stereotype.Service;
 
 @Slf4j
 @Service
 public class AccountServiceImpl implements AccountService {
-
-  @Autowired
-  MongoTemplate mongoTemplate;
 
   @Autowired
   AccountRepository repository;
@@ -139,30 +133,12 @@ public class AccountServiceImpl implements AccountService {
 
   @Override
   public List<TagScore> getUserTagScores(String userId) {
-    Aggregation agg = Aggregation.newAggregation(
-        Aggregation.match(Criteria.where("_id").is(userId)),
-        Aggregation.unwind("tagScores"),
-        Aggregation.group("tagScores._id")
-            .avg("tagScores.score").as("score")
-    );
-    List<TagScore> results = mongoTemplate
-        .aggregate(agg, Account.class, TagScore.class).getMappedResults();
-    results.forEach(System.out::println);
-
-    return results;
+    return repository.getUserTagScores(userId);
   }
 
   @Override
   public Double getUserTagScore(String userId, String tagName) {
-    Aggregation agg = Aggregation.newAggregation(
-        Aggregation.match(Criteria.where("_id").is(userId)),
-        Aggregation.unwind("tagScores"),
-        Aggregation.group("tagScores._id")
-            .avg("tagScores.score").as("score")
-    );
-    List<TagScore> results = mongoTemplate
-        .aggregate(agg, Account.class, TagScore.class).getMappedResults();
-
+    List<TagScore> results = repository.getUserTagScore(userId, tagName);
     for (TagScore tag : results) {
       if (tag.get_id().equals(tagName)) {
         return tag.getScore();

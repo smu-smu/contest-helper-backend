@@ -11,6 +11,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Message {
+
   @Id
   private String id;
   private String title;

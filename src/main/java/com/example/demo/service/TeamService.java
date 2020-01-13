@@ -1,6 +1,5 @@
 package com.example.demo.service;
 
-import com.example.demo.domain.Account;
 import com.example.demo.domain.Participant;
 import com.example.demo.domain.Team;
 import java.util.List;

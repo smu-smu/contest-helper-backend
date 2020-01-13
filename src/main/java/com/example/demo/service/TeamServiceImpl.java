@@ -97,7 +97,8 @@ public class TeamServiceImpl implements TeamService {
         // user 알람
         Account account = accountRepository.findById(participant.getAccountId()).get();
         int messageCnt = account.getMessages().size();
-        account.getMessages().add(new Message(String.valueOf(messageCnt++),"reject", participant.getTeamId() + " reject you"));
+        account.getMessages().add(new Message(String.valueOf(messageCnt++), "reject",
+            participant.getTeamId() + " reject you"));
         accountRepository.save(account);
         return repository.save(team);
       } else {
@@ -121,7 +122,8 @@ public class TeamServiceImpl implements TeamService {
       // user 알람
       Account account = accountRepository.findById(participant.getAccountId()).get();
       int messageCnt = account.getMessages().size();
-      account.getMessages().add(new Message(String.valueOf(messageCnt++),"permit", participant.getTeamId() + " permit you"));
+      account.getMessages().add(new Message(String.valueOf(messageCnt++), "permit",
+          participant.getTeamId() + " permit you"));
       account.getTeam().add(team.getName());
       accountRepository.save(account);
       return repository.save(team);

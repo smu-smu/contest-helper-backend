@@ -2,6 +2,7 @@ package com.example.demo.runner;
 
 import com.example.demo.aspect.PerfLogging;
 import com.example.demo.domain.Account;
+import com.example.demo.domain.TagScore;
 import com.example.demo.repository.AccountRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
@@ -32,6 +33,11 @@ public class AccountInit implements ApplicationRunner {
     account3.setUserId("user3");
     account3.setPassword("password");
     account3.setName("user3");
+
+    TagScore tagScore1 = new TagScore("AI", 5.0);
+    TagScore tagScore2 = new TagScore("AI", 3.0);
+    account3.getTagScores().add(tagScore1);
+    account3.getTagScores().add(tagScore2);
 
     repository.save(account1);
     repository.save(account2);

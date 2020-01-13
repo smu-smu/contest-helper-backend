@@ -117,4 +117,20 @@ public class AccountRepositoryTest {
     assertThat(account1.getMessages().size()).isEqualTo(1);
   }
 
+  @Test
+  public void accountTest() {
+    Account account = new Account();
+    account.setUserId("1");
+
+    repository.save(account);
+
+    System.out.println("-----------");
+    Optional<Account> byId = repository.findById(account.getUserId());
+    if (byId.isPresent()) {
+      Account account1 = byId.get();
+      System.out.println(account1);
+    } else {
+      System.out.println("fail");
+    }
+  }
 }

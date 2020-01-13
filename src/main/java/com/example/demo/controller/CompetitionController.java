@@ -13,9 +13,6 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class CompetitionController {
 
-  private static String URL = "https://www.thinkcontest.com/";
-
-
   @Autowired
   CompetitionService competitionService;
 
@@ -24,6 +21,11 @@ public class CompetitionController {
     competitionService.deleteAll();
   }
 
+  /**
+   * 데이테베이스에 있는 전체 공모전 목록 출력
+   *
+   * @return 전체 공모전 목록
+   */
   @PerfLogging
   @GetMapping("/contest/list")
   public List<Competition> contest_list() {

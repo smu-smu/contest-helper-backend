@@ -21,7 +21,7 @@ public class Team {
   @NotNull
   private String createdUser;
 
-  private String state="running..";
+  private String state = "running..";
 
   private List<String> members = new ArrayList<>();
 

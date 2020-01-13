@@ -222,7 +222,7 @@ public class AccountController {
    * @return 성공시 "success", 실패시 "fail"
    */
   @DeleteMapping("/account/{userId}")
-  public String deleteUser(@PathVariable String userId){
+  public String deleteUser(@PathVariable String userId) {
     return service.deleteUser(userId);
   }
 

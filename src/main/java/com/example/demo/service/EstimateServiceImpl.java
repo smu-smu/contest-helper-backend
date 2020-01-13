@@ -31,6 +31,20 @@ public class EstimateServiceImpl implements EstimateService {
   public String delete(Estimate info) {
     repository.deleteEstimateByAccountIdAndPersonIdAndTeamIdAndContestId(
         info.getAccountId(), info.getPersonId(), info.getTeamId(), info.getContestId());
+
+    if (addUserEstimate(info)) {
+      return "success";
+    } else {
+      return "fail";
+    }
+  }
+
+  @Override
+  public List<Estimate> getEstimatesById(String userId) {
+    return repository.findAllByAccountId(userId);
+  }
+
+  private boolean addUserEstimate(Estimate info) {
     Optional<Competition> competitionTmp = competitionRepository.findById(info.getContestId());
     Optional<Account> accountTmp = accountRepository.findById(info.getPersonId());
     if (competitionTmp.isPresent()) {
@@ -40,14 +54,12 @@ public class EstimateServiceImpl implements EstimateService {
         Account account = accountTmp.get();
         category.forEach(c -> account.getTagScores().add(new TagScore(c, info.getScore())));
         accountRepository.save(account);
-        return "success";
+        return true;
       } else {
-        return "fail";
+        return false;
       }
     } else {
-      return "fail";
+      return false;
     }
-
-
   }
 }

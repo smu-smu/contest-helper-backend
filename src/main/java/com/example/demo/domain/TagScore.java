@@ -9,6 +9,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @Document
 @AllArgsConstructor
 public class TagScore {
+
   @Id
   private String _id;
   private Double score;

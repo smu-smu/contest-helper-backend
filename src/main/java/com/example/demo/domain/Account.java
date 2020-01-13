@@ -22,10 +22,10 @@ public class Account {
   private List<String> profiles = new ArrayList<>();
   private List<String> team = new ArrayList<>();
 
+
   @Field("tagScores")
   private List<TagScore> tagScores = new ArrayList<>();
 
   @Field("messages")
   private List<Message> messages = new ArrayList<>();
-
 }
