@@ -1,6 +1,27 @@
 ## 공모전 도우미 API 
 
+#### Account 객체
+```java
+public class Account {
 
+  @Id
+  @NotNull
+  private String userId;
+  private String password;
+  private String name;
+
+  private List<String> tags = new ArrayList<>();
+  private List<String> profiles = new ArrayList<>();
+  private List<String> team = new ArrayList<>();
+
+
+  @Field("tagScores")
+  private List<TagScore> tagScores = new ArrayList<>();
+
+  @Field("messages")
+  private List<Message> messages = new ArrayList<>();
+}
+```
 
 #### Account 관련 API
 
