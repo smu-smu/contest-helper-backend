@@ -4,7 +4,6 @@ import com.example.demo.aspect.PerfLogging;
 import com.example.demo.domain.Account;
 import com.example.demo.domain.TagScore;
 import com.example.demo.repository.AccountRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.stereotype.Component;
@@ -12,8 +11,11 @@ import org.springframework.stereotype.Component;
 @Component
 public class AccountInit implements ApplicationRunner {
 
-  @Autowired
-  AccountRepository repository;
+  private final AccountRepository repository;
+
+  public AccountInit(AccountRepository repository) {
+    this.repository = repository;
+  }
 
   @PerfLogging
   @Override

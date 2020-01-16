@@ -10,7 +10,6 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.stereotype.Component;
@@ -21,8 +20,12 @@ public class ContestInit implements ApplicationRunner {
 
   private final static String URL = "https://www.thinkcontest.com/";
 
-  @Autowired
-  CompetitionRepository repository;
+  private final CompetitionRepository repository;
+
+  public ContestInit(CompetitionRepository repository) {
+    this.repository = repository;
+  }
+
 
   @PerfLogging
   @Override

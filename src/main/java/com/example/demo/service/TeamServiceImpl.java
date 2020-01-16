@@ -13,23 +13,28 @@ import com.example.demo.repository.TeamRepository;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
 public class TeamServiceImpl implements TeamService {
 
-  @Autowired
-  AccountRepository accountRepository;
+  private final AccountRepository accountRepository;
 
-  @Autowired
-  TeamRepository repository;
+  private final TeamRepository repository;
 
-  @Autowired
-  CompetitionRepository competitionRepository;
+  private final CompetitionRepository competitionRepository;
 
-  @Autowired
-  EstimateRepository estimateRepository;
+  private final EstimateRepository estimateRepository;
+
+  public TeamServiceImpl(AccountRepository accountRepository,
+      TeamRepository repository,
+      CompetitionRepository competitionRepository,
+      EstimateRepository estimateRepository) {
+    this.accountRepository = accountRepository;
+    this.repository = repository;
+    this.competitionRepository = competitionRepository;
+    this.estimateRepository = estimateRepository;
+  }
 
   @Override
   public Team createTeam(Team team) {

@@ -3,7 +3,6 @@ package com.example.demo.controller;
 import com.example.demo.domain.Estimate;
 import com.example.demo.service.EstimateService;
 import java.util.List;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -13,8 +12,11 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class EstimateController {
 
-  @Autowired
-  EstimateService estimateService;
+  private final EstimateService estimateService;
+
+  public EstimateController(EstimateService estimateService) {
+    this.estimateService = estimateService;
+  }
 
   /**
    * 해당 사용자의 평가할 목록 조회

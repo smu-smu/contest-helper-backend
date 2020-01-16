@@ -3,7 +3,6 @@ package com.example.demo.repository;
 import com.example.demo.domain.Account;
 import com.example.demo.domain.TagScore;
 import java.util.List;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.aggregation.Aggregation;
 import org.springframework.data.mongodb.core.query.Criteria;
@@ -12,8 +11,12 @@ import org.springframework.stereotype.Repository;
 @Repository
 public class AccountCustomRepositoryImpl implements AccountCustomRepository<Account> {
 
-  @Autowired
-  MongoTemplate mongoTemplate;
+  private final MongoTemplate mongoTemplate;
+
+  public AccountCustomRepositoryImpl(
+      MongoTemplate mongoTemplate) {
+    this.mongoTemplate = mongoTemplate;
+  }
 
   @Override
   public List<TagScore> getUserTagScores(String userId) {

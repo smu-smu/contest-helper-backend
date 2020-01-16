@@ -6,7 +6,6 @@ import com.example.demo.domain.Message;
 import com.example.demo.domain.TagScore;
 import com.example.demo.service.AccountService;
 import java.util.List;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,9 +18,11 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class AccountController {
 
-  @Autowired
-  AccountService service;
+  private final AccountService service;
 
+  public AccountController(AccountService service) {
+    this.service = service;
+  }
 
   /**
    * 전체 사용자 조회

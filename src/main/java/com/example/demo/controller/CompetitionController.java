@@ -4,7 +4,6 @@ import com.example.demo.aspect.PerfLogging;
 import com.example.demo.domain.Competition;
 import com.example.demo.service.CompetitionService;
 import java.util.List;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -13,8 +12,11 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class CompetitionController {
 
-  @Autowired
-  CompetitionService competitionService;
+  private final CompetitionService competitionService;
+
+  public CompetitionController(CompetitionService competitionService) {
+    this.competitionService = competitionService;
+  }
 
   @GetMapping("/contest/deleteAll")
   public void contest_deleteAll() {

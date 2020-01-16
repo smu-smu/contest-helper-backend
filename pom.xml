@@ -71,14 +71,14 @@
 
     <!-- Swagger -->
     <dependency>
-      <groupId>io.springfox</groupId>
       <artifactId>springfox-swagger2</artifactId>
+      <groupId>io.springfox</groupId>
       <version>2.9.2</version>
     </dependency>
 
     <dependency>
-      <groupId>io.springfox</groupId>
       <artifactId>springfox-swagger-ui</artifactId>
+      <groupId>io.springfox</groupId>
       <version>2.9.2</version>
     </dependency>
 

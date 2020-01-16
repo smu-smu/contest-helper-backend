@@ -7,15 +7,17 @@ import com.example.demo.repository.AccountRepository;
 import java.util.List;
 import java.util.Optional;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Slf4j
 @Service
 public class AccountServiceImpl implements AccountService {
 
-  @Autowired
-  AccountRepository repository;
+  private final AccountRepository repository;
+
+  public AccountServiceImpl(AccountRepository repository) {
+    this.repository = repository;
+  }
 
   @Override
   public Account getUserInfo(String userId) {

@@ -9,23 +9,27 @@ import com.example.demo.repository.CompetitionRepository;
 import com.example.demo.repository.EstimateRepository;
 import java.util.List;
 import java.util.Optional;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
 public class EstimateServiceImpl implements EstimateService {
 
-  @Autowired
-  EstimateRepository repository;
+  private final EstimateRepository repository;
 
-  @Autowired
-  AccountRepository accountRepository;
+  private final AccountRepository accountRepository;
 
-  @Autowired
-  AccountService accountService;
+  private final AccountService accountService;
 
-  @Autowired
-  CompetitionRepository competitionRepository;
+  private final CompetitionRepository competitionRepository;
+
+  public EstimateServiceImpl(EstimateRepository repository,
+      AccountRepository accountRepository, AccountService accountService,
+      CompetitionRepository competitionRepository) {
+    this.repository = repository;
+    this.accountRepository = accountRepository;
+    this.accountService = accountService;
+    this.competitionRepository = competitionRepository;
+  }
 
   @Override
   public String delete(Estimate info) {
